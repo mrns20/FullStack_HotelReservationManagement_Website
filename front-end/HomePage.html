@@ -1,224 +1,230 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>Home Page</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
+      * {
+        box-sizing: border-box;
+      }
 
-        body {
-            max-width: 800px;
-            margin: auto;
-            font-family: sans-serif;
-            background-color: #FAEBD7;
-            margin: 20px;
-            text-align: center
-        }
+      body {
+        max-width: 800px;
+        margin: auto;
+        font-family: sans-serif;
+        background-color: #faebd7;
+        margin: 20px;
+        text-align: center;
+      }
 
-        nav {
-            background-image: linear-gradient(to bottom, MediumSlateBlue, #0ca0e7);
-        }
+      nav {
+        background-image: linear-gradient(to bottom, MediumSlateBlue, #0ca0e7);
+      }
 
-        nav ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: flex-start; /* ??? */
-            border: 1px solid black;
-            color: white;
-        }
+      nav ul {
+        list-style-type: none;
+        display: flex;
+        justify-content: flex-start; /* ??? */
+        border: 1px solid black;
+        color: white;
+      }
 
-        nav li {
-            width: 150px;
-            padding: 10px;
-            text-align: center;
-        }
+      nav li {
+        width: 150px;
+        padding: 10px;
+        text-align: center;
+      }
 
-        nav a {
-            text-decoration: none;
-            color: inherit;
-            padding: 10px; /* !!!!!!! */
-            transition: background-color 0.5s,
-            font-size 0.5s;
-        }
+      nav a {
+        text-decoration: none;
+        color: inherit;
+        padding: 10px; /* !!!!!!! */
+        transition: background-color 0.5s, font-size 0.5s;
+      }
 
-        nav a:hover { /* !!!!!!! */
-            text-decoration: underline;
-            background-color: #096b85;
-            font-size: 1.2em;
-        }
+      nav a:hover {
+        /* !!!!!!! */
+        text-decoration: underline;
+        background-color: #096b85;
+        font-size: 1.2em;
+      }
 
-        nav a:active { /* !!!!!!! */
-            text-decoration: underline;
-            background-color: #850920;
-        }
+      nav a:active {
+        /* !!!!!!! */
+        text-decoration: underline;
+        background-color: #850920;
+      }
 
-        .book-button {
-            display: inline-block;
-            border: 1px solid black;
-            border-radius: 10px;
-            padding: 10px;
-            margin: 20px;
-            font-size: 20px;
-            font-weight: bold;
-            font-family: monospace;
-            text-decoration: none;
-            color: black;
+      .book-button {
+        display: inline-block;
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 10px;
+        margin: 20px;
+        font-size: 20px;
+        font-weight: bold;
+        font-family: monospace;
+        text-decoration: none;
+        color: black;
 
-            background-color: lightgray;
-            transition: box-shadow, transform, background-color; /* !!!!!!!!!! */
-            transition-duration: 0.1s;
-            box-shadow: 0 5px 0 #817e7e;
-        }
+        background-color: lightgray;
+        transition: box-shadow, transform, background-color; /* !!!!!!!!!! */
+        transition-duration: 0.1s;
+        box-shadow: 0 5px 0 #817e7e;
+      }
 
-        .book-button:hover {
-            background-color: #bdbdbd;
-            transform: scale(1.05); /* !!!!!!!!!! */
-        }
+      .book-button:hover {
+        background-color: #bdbdbd;
+        transform: scale(1.05); /* !!!!!!!!!! */
+      }
 
-        .book-button:active {
-            background-color: #bdbdbd;
-            box-shadow: 0 3px 0 #817e7e; /* 5px -> 3px + 2px*/
-            transform: translateY(2px); /* !!!!!!!!!! */
-        }
+      .book-button:active {
+        background-color: #bdbdbd;
+        box-shadow: 0 3px 0 #817e7e; /* 5px -> 3px + 2px*/
+        transform: translateY(2px); /* !!!!!!!!!! */
+      }
 
-        .logo-text {
-            font-family: Lucida Calligraphy;
-            font-size: 34px;
-            margin-top: 10px;
-            text-shadow: 5px 5px 5px grey;
-        }
+      .logo-text {
+        font-family: Lucida Calligraphy;
+        font-size: 34px;
+        margin-top: 10px;
+        text-shadow: 5px 5px 5px grey;
+      }
 
-        ul {
-            margin: 0px;
-            padding: 0px;
-        }
+      ul {
+        margin: 0px;
+        padding: 0px;
+      }
 
-        .footer-section {
-            background: #151414;
-            position: relative;
-        }
+      .footer-section {
+        background: #151414;
+        position: relative;
+      }
 
+      .cta-text {
+        padding-left: 15px;
+        display: inline-block;
+      }
 
-        .cta-text {
-            padding-left: 15px;
-            display: inline-block;
-        }
+      .cta-text h4 {
+        color: #fff;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
 
-        .cta-text h4 {
-            color: #fff;
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
+      .cta-text span {
+        color: #757575;
+        font-size: 15px;
+      }
 
-        .cta-text span {
-            color: #757575;
-            font-size: 15px;
-        }
+      .footer-social-icon span {
+        color: #fff;
+        display: block;
+        font-size: 20px;
+        font-weight: 700;
+        font-family: "Poppins", sans-serif;
+        margin-bottom: 20px;
+      }
 
-        .footer-social-icon span {
-            color: #fff;
-            display: block;
-            font-size: 20px;
-            font-weight: 700;
-            font-family: 'Poppins', sans-serif;
-            margin-bottom: 20px;
-        }
+      .copyright-area {
+        background: #202020;
+        padding: 25px 0;
+      }
 
-        .copyright-area {
-            background: #202020;
-            padding: 25px 0;
-        }
+      .copyright-text p {
+        margin: 0;
+        font-size: 14px;
+        color: #878787;
+      }
 
-        .copyright-text p {
-            margin: 0;
-            font-size: 14px;
-            color: #878787;
-        }
-
-        .copyright-text p a {
-            color: #ff5e14;
-        }
-
-
+      .copyright-text p a {
+        color: #ff5e14;
+      }
     </style>
-
-
-</head>
-<body>
-<header>
-    <nav>
+  </head>
+  <body>
+    <header>
+      <nav>
         <ul>
-            <li><a href="Login.jsp">Login</a></li>
-            <li><a href="NeedHelp.jsp">Need help?</a></li>
-            <li><a href="AboutUs.html">About Us</a></li>
-            <li><a href="Rooms.html">Rooms</a></li>
+          <li><a href="Login.jsp">Login</a></li>
+          <li><a href="NeedHelp.jsp">Need help?</a></li>
+          <li><a href="AboutUs.html">About Us</a></li>
+          <li><a href="Rooms.html">Rooms</a></li>
         </ul>
-    </nav>
-</header>
-<div class="logo-text">Hotel Gourdo</div>
-<a id="BookNowButton" class="book-button" href="BookNow.jsp">Book Now</a>
+      </nav>
+    </header>
+    <div class="logo-text">Hotel Gourdo</div>
+    <a id="BookNowButton" class="book-button" href="BookNow.jsp">Book Now</a>
 
-<footer class="footer-section">
-    <div class="container">
+    <footer class="footer-section">
+      <div class="container">
         <div class="row">
-            <div class="cta-text">
-                <h4>Find us</h4>
-                <span>Kotronas,Mani</span>
-            </div>
-            <img src="pin.jpg" alt="Map Pin" style="width: 30px; height: auto;">
+          <div class="cta-text">
+            <h4>Find us</h4>
+            <span>Kotronas,Mani</span>
+          </div>
+          <img src="pin.jpg" alt="Map Pin" style="width: 30px; height: auto" />
         </div>
-    </div>
-    <div class="cta-text">
+      </div>
+      <div class="cta-text">
         <h4>Call us</h4>
         <span>210-3411321</span>
-    </div>
-    <img src="tel.jpg" alt="Tel" style="width: 30px; height: auto;">
-    <div class="single-cta">
+      </div>
+      <img src="tel.jpg" alt="Tel" style="width: 30px; height: auto" />
+      <div class="single-cta">
         <div class="cta-text">
-            <h4>Mail us</h4>
-            <span>hotelgourdo@gmail.com</span>
+          <h4>Mail us</h4>
+          <span>hotelgourdo@gmail.com</span>
         </div>
-        <img src="email.jpg" alt="Email" style="width: 30px; height: auto;">
-    </div>
+        <img src="email.jpg" alt="Email" style="width: 30px; height: auto" />
+      </div>
 
-    <div class="footer-social-icon" style="margin-top: 20px;">
+      <div class="footer-social-icon" style="margin-top: 20px">
         <span>Follow us</span>
-        <a href="#"><img src="facebook.jpg" alt="Facebook"
-                         style="width: 30px; height: auto; display: inline-block;"></a>
-        <a href="#"><img src="instagram.jpg" alt="Instagram"
-                         style="width: 30px; height: auto;  display: inline-block; margin-left: 10px;"></a>
-    </div>
+        <a href="#"
+          ><img
+            src="facebook.jpg"
+            alt="Facebook"
+            style="width: 30px; height: auto; display: inline-block"
+        /></a>
+        <a href="#"
+          ><img
+            src="instagram.jpg"
+            alt="Instagram"
+            style="
+              width: 30px;
+              height: auto;
+              display: inline-block;
+              margin-left: 10px;
+            "
+        /></a>
+      </div>
 
-    <div class="copyright-area">
+      <div class="copyright-area">
         <div class="copyright-text">
-            <p>&copy; 2024 Hotel Gourdo | All Rights Reserved | Powered by D.Gourdo</p>
+          <p>
+            &copy; 2023 Hotel Gourdo | All Rights Reserved | Powered by D.Gourdo
+          </p>
         </div>
-    </div>
+      </div>
+    </footer>
 
-</footer>
+    <script>
+      function hasVisitedLoginPage() {
+        return localStorage.getItem("visitedLoginPage") === "true";
+      }
 
-<script>
-    function hasVisitedLoginPage() {
-        return localStorage.getItem('visitedLoginPage') === 'true';
-    }
-
-    function openBookNowPage() {
+      function openBookNowPage() {
         if (hasVisitedLoginPage()) {
-            alert("Opening Book Now Form");
+          alert("Opening Book Now Form");
         } else {
-            alert("Please visit the Login page first.");
+          alert("Please visit the Login page first.");
         }
-    }
+      }
 
-    var BookNowButton = document.getElementById('BookNowButton');
-    BookNowButton.addEventListener('click', openBookNowPage);
-
-</script>
-
-</body>
-
+      var BookNowButton = document.getElementById("BookNowButton");
+      BookNowButton.addEventListener("click", openBookNowPage);
+    </script>
+  </body>
 </html>
