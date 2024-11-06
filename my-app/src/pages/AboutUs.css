@@ -1,0 +1,159 @@
+/* front-end/pages/AboutUs.css */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    max-width: 800px;
+    margin: auto;
+    font-family: sans-serif;
+    background-color: #FAEBD7;
+    margin: 20px;
+    text-align: center;
+}
+
+nav {
+    background-image: linear-gradient(to bottom, MediumSlateBlue, #0ca0e7);
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: flex-start;
+    border: 1px solid black;
+    color: white;
+}
+
+nav li {
+    width: 150px;
+    padding: 10px;
+    text-align: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: inherit;
+    padding: 10px;
+    transition: background-color 0.5s, font-size 0.5s;
+}
+
+nav a:hover {
+    text-decoration: underline;
+    background-color: #096b85;
+    font-size: 1.2em;
+}
+
+nav a:active {
+    text-decoration: underline;
+    background-color: #850920;
+}
+
+.book-button {
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: monospace;
+    text-decoration: none;
+    color: black;
+    background-color: lightgray;
+    transition: box-shadow, transform, background-color;
+    transition-duration: 0.1s;
+    box-shadow: 0 5px 0 #817e7e;
+}
+
+.book-button:hover {
+    background-color: #bdbdbd;
+    transform: scale(1.05);
+}
+
+.book-button:active {
+    background-color: #bdbdbd;
+    box-shadow: 0 3px 0 #817e7e;
+    transform: translateY(2px);
+}
+
+.logo-text {
+    font-family: Lucida Calligraphy;
+    font-size: 34px;
+    margin-top: 10px;
+    text-shadow: 5px 5px 5px grey;
+}
+
+ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+.footer-section {
+    background: #151414;
+    position: relative;
+}
+
+.cta-text {
+    padding-left: 15px;
+    display: inline-block;
+}
+
+.cta-text h4 {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.cta-text span {
+    color: #757575;
+    font-size: 15px;
+}
+
+.footer-social-icon span {
+    color: #fff;
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 20px;
+}
+
+.copyright-area {
+    background: #202020;
+    padding: 25px 0;
+}
+
+.copyright-text p {
+    margin: 0;
+    font-size: 14px;
+    color: #878787;
+}
+
+.copyright-text p a {
+    color: #ff5e14;
+}
+
+.logo-text2 {
+    font-family: "Old English Text MT", fantasy;
+    font-size: 50px;
+    margin-top: 10px;
+}
+
+.gbox {
+    border: 2px black solid;
+    margin: 20px;
+    padding: 5px;
+    width: 700px;
+    height: 500px;
+    text-align: center;
+}
+
+#box3 {
+    color: black;
+    font-family: "Times New Roman";
+    box-shadow: 5px 5px 5px, 10px 10px 10px grey;
+    margin: 50px;
+    font-size: 30px;
+}

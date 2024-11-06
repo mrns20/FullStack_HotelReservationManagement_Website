@@ -1,0 +1,119 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-size: cover;
+    max-width: 800px;
+    margin: auto;
+    font-family: sans-serif;
+    background-color: #faebd7;
+    margin: 20px;
+    text-align: center;
+}
+
+nav {
+    background-image: linear-gradient(to bottom, MediumSlateBlue, #0ca0e7);
+}
+
+.container {
+    background: #2d3e3f;
+    width: 500px;
+    height: 500px;
+    padding-bottom: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    padding: 70px 50px 20px 50px;
+}
+
+.fl {
+    float: left;
+    width: 110px;
+    line-height: 35px;
+}
+
+.fontLabel {
+    color: white;
+}
+
+.fr {
+    float: right;
+}
+
+.clr {
+    clear: both;
+}
+
+.box {
+    width: 360px;
+    height: 45px;
+    margin-top: 10px;
+    font-family: verdana;
+    font-size: 12px;
+}
+
+.box2 {
+    width: 360px;
+    height: 35px;
+    margin-top: 10px;
+    font-family: verdana;
+    font-size: 14px;
+}
+
+.textBox {
+    height: 35px;
+    width: 190px;
+    border: none;
+    padding-left: 20px;
+}
+
+.submit {
+    float: right;
+    border: none;
+    color: white;
+    width: 150px;
+    height: 35px;
+    background: black;
+    cursor: pointer;
+}
+
+.logo-text {
+    font-family: Lucida Calligraphy;
+    font-size: 34px;
+    margin-top: 10px;
+    text-shadow: 5px 5px 5px grey;
+    color: white;
+}
+
+.logo-text2 {
+    font-family: Lucida Calligraphy;
+    font-size: 20px;
+    margin-top: 10px;
+    color: Crimson;
+}
+
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+select:hover,
+select:active {
+    background-color: #e0e0e0;
+    border-color: #aaa;
+}
+
+.message {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+}

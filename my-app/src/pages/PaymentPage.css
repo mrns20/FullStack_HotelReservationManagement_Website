@@ -1,0 +1,122 @@
+/* PaymentPage.css */
+
+body {
+    background-color: #FAEBD7;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #2d3e3f;
+    width: 500px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+.logo-text {
+    font-family: 'Lucida Calligraphy', cursive;
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.logo-text2 {
+    font-family: 'Lucida Calligraphy', cursive;
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: lightblue;
+}
+
+.radio-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.radio-label {
+    cursor: pointer;
+}
+
+.form-container {
+    display: none;
+    background-color: #4e5f60;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.radio:checked + .form-container {
+    display: block;
+}
+
+.form-container h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: black;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.form-container input {
+    display: block;
+    margin-bottom: 10px;
+    font-family: 'Times New Roman', cursive;
+    font-size: 18px;
+    color: black;
+}
+
+.submit {
+    width: 100%;
+    background-color: #328f8a;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.5);
+}
+
+.depo {
+    background-color: lightgrey;
+    font-family: 'Times New Roman', cursive;
+    color: black;
+    width: 410px;
+    height: auto;
+    font-weight: bold;
+    display: block;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.depo2 {
+    background-color: lightgrey;
+    font-family: 'Times New Roman', cursive;
+    color: black;
+    width: 200px;
+    height: auto;
+    font-weight: bold;
+    display: block;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.message {
+    color: #32a852;
+    font-weight: bold;
+    margin-top: 20px;
+}
