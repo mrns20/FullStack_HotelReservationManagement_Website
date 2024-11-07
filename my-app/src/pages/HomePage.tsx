@@ -39,26 +39,26 @@ const HomePage: React.FC = () => {
                             <h4>Find us</h4>
                             <span>Kotronas,Mani</span>
                         </div>
-                        <img src="pin.jpg" alt="Map Pin" style={{ width: '30px', height: 'auto' }} />
+                        <img src="/pin.jpg" alt="Map Pin" style={{ width: '30px', height: 'auto' }} />
                     </div>
                 </div>
                 <div className="cta-text">
                     <h4>Call us</h4>
                     <span>210-3411321</span>
                 </div>
-                <img src="tel.jpg" alt="Tel" style={{ width: '30px', height: 'auto' }} />
+                <img src="/tel.jpg" alt="Tel" style={{ width: '30px', height: 'auto' }} />
                 <div className="single-cta">
                     <div className="cta-text">
                         <h4>Mail us</h4>
                         <span>hotelgourdo@gmail.com</span>
                     </div>
-                    <img src="email.jpg" alt="Email" style={{ width: '30px', height: 'auto' }} />
+                    <img src="/email.jpg" alt="Email" style={{ width: '30px', height: 'auto' }} />
                 </div>
 
                 <div className="footer-social-icon" style={{ marginTop: '20px' }}>
                     <span>Follow us</span>
-                    <a href="#"><img src="facebook.jpg" alt="Facebook" style={{ width: '30px', height: 'auto', display: 'inline-block' }} /></a>
-                    <a href="#"><img src="instagram.jpg" alt="Instagram" style={{ width: '30px', height: 'auto', display: 'inline-block', marginLeft: '10px' }} /></a>
+                    <a href="#"><img src="/facebook.jpg" alt="Facebook" style={{ width: '30px', height: 'auto', display: 'inline-block' }} /></a>
+                    <a href="#"><img src="/instagram.jpg" alt="Instagram" style={{ width: '30px', height: 'auto', display: 'inline-block', marginLeft: '10px' }} /></a>
                 </div>
 
                 <div className="copyright-area">

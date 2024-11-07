@@ -24,10 +24,10 @@ const Login: React.FC = () => {
             <header>
                 <nav>
                     <ul>
-                        <li><a href="/my-app/src/pages/Login">Login</a></li>
-                        <li><a href="/my-app/src/pages/NeedHelp">Need help?</a></li>
-                        <li><a href="/my-app/src/pages/AboutUs">About Us</a></li>
-                        <li><a href="/my-app/src/pages/Rooms">Rooms</a></li>
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="/need-help">Need help?</a></li>
+                        <li><a href="/about_us">About Us</a></li>
+                        <li><a href="/rooms">Rooms</a></li>
                     </ul>
                 </nav>
             </header>
@@ -60,7 +60,7 @@ const Login: React.FC = () => {
                     <button type="submit">Login</button>
                 </form>
 
-                <p className="message">Not registered? <a href="/my-app/src/pages/SignUp">Create an account</a></p>
+                <p className="message">Not registered? <a href="/sign-up">Create an account</a></p>
 
                 {message && <p className="message">{message}</p>}
             </div>
@@ -69,22 +69,22 @@ const Login: React.FC = () => {
                 <div className="cta-text">
                     <h4>Find us</h4>
                     <span>Kotronas, Mani</span>
-                    <img src="pin.jpg" alt="Map Pin" style={{ width: '30px', height: 'auto' }} />
+                    <img src="/pin.jpg" alt="Map Pin" style={{ width: '30px', height: 'auto' }} />
                 </div>
                 <div className="cta-text">
                     <h4>Call us</h4>
                     <span>210-3411321</span>
-                    <img src="tel.jpg" alt="Tel" style={{ width: '30px', height: 'auto' }} />
+                    <img src="/tel.jpg" alt="Tel" style={{ width: '30px', height: 'auto' }} />
                 </div>
                 <div className="cta-text">
                     <h4>Mail us</h4>
                     <span>hotelgourdo@gmail.com</span>
-                    <img src="email.jpg" alt="Email" style={{ width: '30px', height: 'auto' }} />
+                    <img src="/email.jpg" alt="Email" style={{ width: '30px', height: 'auto' }} />
                 </div>
                 <div className="footer-social-icon" style={{ marginTop: '20px' }}>
                     <span>Follow us</span>
-                    <a href="#"><img src="facebook.jpg" alt="Facebook" style={{ width: '30px', height: 'auto' }} /></a>
-                    <a href="#"><img src="instagram.jpg" alt="Instagram" style={{ width: '30px', height: 'auto', marginLeft: '10px' }} /></a>
+                    <a href="#"><img src="/facebook.jpg" alt="Facebook" style={{ width: '30px', height: 'auto', display: 'inline-block' }} /></a>
+                    <a href="#"><img src="/instagram.jpg" alt="Instagram" style={{ width: '30px', height: 'auto', display: 'inline-block', marginLeft: '10px' }} /></a>
                 </div>
                 <div className="copyright-area">
                     <div className="copyright-text">
