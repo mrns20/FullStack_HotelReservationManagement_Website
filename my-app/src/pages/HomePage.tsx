@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./HomePage.css"; // Μεταφορά του style σε ξεχωριστό αρχείο
+import "./HomePage.module.css"; // Μεταφορά του style σε ξεχωριστό αρχείο
 
 const HomePage: React.FC = () => {
   const hasVisitedLoginPage = () => {

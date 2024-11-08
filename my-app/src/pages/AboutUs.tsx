@@ -1,6 +1,6 @@
 // front-end/pages/AboutUs.tsx
 import React from "react";
-import "./AboutUs.css"; // Εισαγωγή του CSS αρχείου
+import "./AboutUs.module.css"; // Εισαγωγή του CSS αρχείου
 
 const AboutUs: React.FC = () => {
   return (
@@ -15,7 +15,7 @@ const AboutUs: React.FC = () => {
               <a href="/need-help">Need help?</a>
             </li>
             <li>
-              <a href="/about_us">About Us</a>
+              <a href="/about-us">About Us</a>
             </li>
             <li>
               <a href="/rooms">Rooms</a>

@@ -1,5 +1,5 @@
 import React from "react";
-import "./Rooms.css";
+import "./Rooms.module.css";
 
 const Rooms: React.FC = () => {
   return (

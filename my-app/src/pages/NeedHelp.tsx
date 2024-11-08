@@ -1,6 +1,6 @@
 // NeedHelp.tsx
 import React, { useState } from "react";
-import "./NeedHelp.css"; // Εισαγωγή των στυλ
+import "./NeedHelp.module.css"; // Εισαγωγή των στυλ
 
 const NeedHelp: React.FC = () => {
   const [firstName, setFirstName] = useState("");

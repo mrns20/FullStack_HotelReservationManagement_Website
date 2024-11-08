@@ -1,6 +1,6 @@
 // Login.tsx
 import React, { useState } from "react";
-import "./Login.css"; // Εισαγωγή των στυλ
+import "./Login.module.css"; // Εισαγωγή των στυλ
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
