@@ -1,119 +1,148 @@
-* {
-    padding: 0;
-    margin: 0;
+/* General Styles */
+:root {
+  --primary-color: #00838f;
+  --accent-color: #ff5252;
+  --text-color: #263238;
+  --bg-color: #eceff1;
 }
 
-body {
-    background-size: cover;
-    max-width: 800px;
-    margin: auto;
-    font-family: sans-serif;
-    background-color: #faebd7;
-    margin: 20px;
-    text-align: center;
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-nav {
-    background-image: linear-gradient(to bottom, MediumSlateBlue, #0ca0e7);
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
 }
 
-.container {
-    background: #2d3e3f;
-    width: 500px;
-    height: 500px;
-    padding-bottom: 20px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin: auto;
-    padding: 70px 50px 20px 50px;
+.logoText {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary-color);
 }
 
-.fl {
-    float: left;
-    width: 110px;
-    line-height: 35px;
+.logoText2 {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+  color: var(--text-color);
 }
 
-.fontLabel {
-    color: white;
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin: 1rem 0;
 }
 
-.fr {
-    float: right;
+.formGroup label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
 }
 
-.clr {
-    clear: both;
+.formGroup input,
+.formGroup select {
+  padding: 0.5rem;
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
 }
 
-.box {
-    width: 360px;
-    height: 45px;
-    margin-top: 10px;
-    font-family: verdana;
-    font-size: 12px;
+.submitButton,
+.modifyButton {
+  background-color: var(--accent-color);
+  color: #fff;
+  padding: 0.8rem 2rem;
+  margin: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.box2 {
-    width: 360px;
-    height: 35px;
-    margin-top: 10px;
-    font-family: verdana;
-    font-size: 14px;
-}
-
-.textBox {
-    height: 35px;
-    width: 190px;
-    border: none;
-    padding-left: 20px;
-}
-
-.submit {
-    float: right;
-    border: none;
-    color: white;
-    width: 150px;
-    height: 35px;
-    background: black;
-    cursor: pointer;
-}
-
-.logo-text {
-    font-family: Lucida Calligraphy;
-    font-size: 34px;
-    margin-top: 10px;
-    text-shadow: 5px 5px 5px grey;
-    color: white;
-}
-
-.logo-text2 {
-    font-family: Lucida Calligraphy;
-    font-size: 20px;
-    margin-top: 10px;
-    color: Crimson;
-}
-
-select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f5f5f5;
-    font-size: 14px;
-    color: #333;
-    cursor: pointer;
-}
-
-select:hover,
-select:active {
-    background-color: #e0e0e0;
-    border-color: #aaa;
+.submitButton:hover,
+.modifyButton:hover {
+  background-color: #e55a5a;
 }
 
 .message {
-    color: red;
-    font-weight: bold;
-    margin-top: 10px;
+  margin-top: 1rem;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+/* Footer Styles */
+
+.footerSection {
+  background-color: #333;
+  color: #ffffff;
+  padding: 0.2rem 0;
+  text-align: center;
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.ctaText h4 {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.ctaText span {
+  display: block;
+  font-size: 1rem;
+  color: #ddd;
+}
+
+.footerIcon {
+  width: 30px;
+  height: auto;
+  margin-left: 0.5rem;
+}
+
+.singleCta {
+  margin: 1.5rem 0;
+}
+
+.footerSocialIcon {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.footerSocialIcon span {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.socialIcon {
+  width: 30px;
+  height: auto;
+  display: inline-block;
+  margin: 0 0.5rem;
+}
+
+.copyrightArea {
+  background-color: #222;
+  padding: 0.25rem 0;
+  font-size: 0.85rem;
+  opacity: 0.8;
 }

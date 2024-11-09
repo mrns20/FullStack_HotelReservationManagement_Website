@@ -1,167 +1,134 @@
-/*import React from "react";
-import "./Rooms.module.css";
-
-const Rooms: React.FC = () => {
-  return (
-    <div>
-      <header>
-        <nav>
-          <ul>
-            <li>
-              <a href="/login">Login</a>
-            </li>
-            <li>
-              <a href="/need-help">Need help?</a>
-            </li>
-            <li>
-              <a href="/about-us">About Us</a>
-            </li>
-            <li>
-              <a href="/rooms">Rooms</a>
-            </li>
-          </ul>
-        </nav>
-      </header>
-
-      <div className="logo-text">Hotel Gourdo</div>
-
-      <div className="info-box">
-        The hotel offers 20 spacious rooms. Breakfast is included in the room
-        value, with the possibility of in-room service.
-      </div>
-
-      <div id="box4" className="gbox">
-        <ol>
-          <li style={{ listStyleType: "disc" }}>Check in: From 9 AM</li>
-          <li style={{ listStyleType: "disc" }}>Check out: To 12 AM</li>
-          <li style={{ listStyleType: "disc" }}>
-            Reception: From 8 AM to 10 PM
-          </li>
-        </ol>
-      </div>
-
-      <div id="box3" className="gbox">
-        <div className="logo-text2">Rooms</div>
-        <ol>
-          <li style={{ listStyleType: "disc" }}>8 2-persons rooms</li>
-          <li style={{ listStyleType: "disc" }}>8 3-persons rooms</li>
-          <li style={{ listStyleType: "disc" }}>4 4-persons rooms</li>
-        </ol>
-      </div>
-
-      <div className="title">Excellent hospitality facilities</div>
-      <div className="feature-list">
-        <div className="feature-item">
-          <span className="feature-text">Baggage transfer service</span>
-        </div>
-        <div className="feature-item">
-          <span className="feature-text">Free WiFi</span>
-        </div>
-        <div className="feature-item">
-          <span className="feature-text">Private Parking</span>
-        </div>
-      </div>
-
-      <div className="divider"></div>
-      <div className="feature-list">
-        <div className="feature-item">
-          <span className="feature-text">Netflix</span>
-        </div>
-        <div className="feature-item">
-          <span className="feature-text">Pet Friendly</span>
-        </div>
-        <div className="feature-item">
-          <span className="feature-text">Climate Control</span>
-        </div>
-      </div>
-
-      <a id="BookNowButton" className="book-button" href="/book-now">
-        Book Now
-      </a>
-    </div>
-  );
-};
-
-export default Rooms;
-*/
 import React from "react";
-import "./Rooms.module.css";
+import styles from "./Rooms.module.css";
 
 const Rooms: React.FC = () => {
   return (
-    <div>
+    <div className={styles.pageWrapper}>
       <header>
-        <nav>
-          <ul>
-            <li>
+        <nav className={styles.nav}>
+          <ul className={styles.navList}>
+            <li className={styles.navItem}>
               <a href="/login">Login</a>
             </li>
-            <li>
+            <li className={styles.navItem}>
               <a href="/need-help">Need help?</a>
             </li>
-            <li>
+            <li className={styles.navItem}>
               <a href="/about-us">About Us</a>
             </li>
-            <li>
+            <li className={styles.navItem}>
               <a href="/rooms">Rooms</a>
             </li>
           </ul>
         </nav>
       </header>
 
-      <div className="logo-text">Hotel Gourdo</div>
+      <div className={styles.logoText}>Hotel Gourdo</div>
 
-      <div className="info-box">
-        The hotel offers 20 spacious rooms. Breakfast is included in the room
-        value, with the possibility of in-room service.
+      <div className={styles.mainContent}>
+        <div className={styles.infoBox}>
+          The hotel offers 20 spacious rooms. Breakfast is included in the room
+          value, with the possibility of in-room service.
+        </div>
+
+        <div id="box4" className={styles.gbox}>
+          <ol>
+            <li className={styles.discList}>Check in: From 9 AM</li>
+            <li className={styles.discList}>Check out: To 12 AM</li>
+            <li className={styles.discList}>Reception: From 8 AM to 10 PM</li>
+          </ol>
+        </div>
+
+        <div id="box3" className={styles.gbox}>
+          <div className={styles.logoText2}>Rooms</div>
+          <ol>
+            <li className={styles.discList}>8 2-person rooms</li>
+            <li className={styles.discList}>8 3-person rooms</li>
+            <li className={styles.discList}>4 4-person rooms</li>
+          </ol>
+        </div>
+
+        <div className={styles.title}>Excellent hospitality facilities</div>
+        <div className={styles.featureList}>
+          <div className={styles.featureItem}>
+            <span className={styles.featureText}>Baggage transfer service</span>
+          </div>
+          <div className={styles.featureItem}>
+            <span className={styles.featureText}>Free WiFi</span>
+          </div>
+          <div className={styles.featureItem}>
+            <span className={styles.featureText}>Private Parking</span>
+          </div>
+        </div>
+
+        <div className={styles.divider}></div>
+        <div className={styles.featureList}>
+          <div className={styles.featureItem}>
+            <span className={styles.featureText}>Netflix</span>
+          </div>
+          <div className={styles.featureItem}>
+            <span className={styles.featureText}>Pet Friendly</span>
+          </div>
+          <div className={styles.featureItem}>
+            <span className={styles.featureText}>Climate Control</span>
+          </div>
+        </div>
+
+        <a id="BookNowButton" className={styles.bookButton} href="/book-now">
+          Book Now
+        </a>
       </div>
 
-      <div id="box4" className="gbox">
-        <ol>
-          <li className="disc-list">Check in: From 9 AM</li>
-          <li className="disc-list">Check out: To 12 AM</li>
-          <li className="disc-list">Reception: From 8 AM to 10 PM</li>
-        </ol>
-      </div>
+      <footer className={styles.footerSection}>
+        <div className={styles.container}>
+          <div className={styles.row}>
+            <div className={styles.ctaText}>
+              <h4>Find us</h4>
+              <span>Kotronas, Mani</span>
+            </div>
+            <img src="/pin.jpg" alt="Map Pin" className={styles.footerIcon} />
+          </div>
+        </div>
+        <div className={styles.ctaText}>
+          <h4>Call us</h4>
+          <span>210-3411321</span>
+        </div>
+        <img src="/tel.jpg" alt="Tel" className={styles.footerIcon} />
+        <div className={styles.singleCta}>
+          <div className={styles.ctaText}>
+            <h4>Mail us</h4>
+            <span>hotelgourdo@gmail.com</span>
+          </div>
+          <img src="/email.jpg" alt="Email" className={styles.footerIcon} />
+        </div>
 
-      <div id="box3" className="gbox">
-        <div className="logo-text2">Rooms</div>
-        <ol>
-          <li className="disc-list">8 2-persons rooms</li>
-          <li className="disc-list">8 3-persons rooms</li>
-          <li className="disc-list">4 4-persons rooms</li>
-        </ol>
-      </div>
+        <div className={styles.footerSocialIcon}>
+          <span>Follow us</span>
+          <a href="#">
+            <img
+              src="/facebook.jpg"
+              alt="Facebook"
+              className={styles.socialIcon}
+            />
+          </a>
+          <a href="#">
+            <img
+              src="/instagram.jpg"
+              alt="Instagram"
+              className={styles.socialIcon}
+            />
+          </a>
+        </div>
 
-      <div className="title">Excellent hospitality facilities</div>
-      <div className="feature-list">
-        <div className="feature-item">
-          <span className="feature-text">Baggage transfer service</span>
+        <div className={styles.copyrightArea}>
+          <div className={styles.copyrightText}>
+            <p>
+              &copy; {new Date().getFullYear()} Hotel Gourdo. All rights
+              reserved.
+            </p>
+          </div>
         </div>
-        <div className="feature-item">
-          <span className="feature-text">Free WiFi</span>
-        </div>
-        <div className="feature-item">
-          <span className="feature-text">Private Parking</span>
-        </div>
-      </div>
-
-      <div className="divider"></div>
-      <div className="feature-list">
-        <div className="feature-item">
-          <span className="feature-text">Netflix</span>
-        </div>
-        <div className="feature-item">
-          <span className="feature-text">Pet Friendly</span>
-        </div>
-        <div className="feature-item">
-          <span className="feature-text">Climate Control</span>
-        </div>
-      </div>
-
-      <a id="BookNowButton" className="book-button" href="/book-now">
-        Book Now
-      </a>
+      </footer>
     </div>
   );
 };

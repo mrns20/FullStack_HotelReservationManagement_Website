@@ -1,159 +1,159 @@
-/* front-end/pages/AboutUs.css */
-
-* {
-    box-sizing: border-box;
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-body {
-    max-width: 800px;
-    margin: auto;
-    font-family: sans-serif;
-    background-color: #FAEBD7;
-    margin: 20px;
-    text-align: center;
+header {
+  position: relative;
+  width: 100%;
 }
 
-nav {
-    background-image: linear-gradient(to bottom, MediumSlateBlue, #0ca0e7);
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20rem;
 }
 
-nav ul {
-    list-style-type: none;
-    display: flex;
-    justify-content: flex-start;
-    border: 1px solid black;
-    color: white;
+.nav {
+  background-color: var(--nav-bg-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: center;
 }
 
-nav li {
-    width: 150px;
-    padding: 10px;
-    text-align: center;
+.navList {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
 }
 
-nav a {
-    text-decoration: none;
-    color: inherit;
-    padding: 10px;
-    transition: background-color 0.5s, font-size 0.5s;
+.navItem a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
 }
 
-nav a:hover {
-    text-decoration: underline;
-    background-color: #096b85;
-    font-size: 1.2em;
+.navItem a:hover {
+  color: var(--accent-color);
 }
 
-nav a:active {
-    text-decoration: underline;
-    background-color: #850920;
+.logoText {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 2rem 0;
+  color: var(--primary-color);
 }
 
-.book-button {
-    display: inline-block;
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 20px;
-    font-size: 20px;
-    font-weight: bold;
-    font-family: monospace;
-    text-decoration: none;
-    color: black;
-    background-color: lightgray;
-    transition: box-shadow, transform, background-color;
-    transition-duration: 0.1s;
-    box-shadow: 0 5px 0 #817e7e;
-}
-
-.book-button:hover {
-    background-color: #bdbdbd;
-    transform: scale(1.05);
-}
-
-.book-button:active {
-    background-color: #bdbdbd;
-    box-shadow: 0 3px 0 #817e7e;
-    transform: translateY(2px);
-}
-
-.logo-text {
-    font-family: Lucida Calligraphy;
-    font-size: 34px;
-    margin-top: 10px;
-    text-shadow: 5px 5px 5px grey;
-}
-
-ul {
-    margin: 0px;
-    padding: 0px;
-}
-
-.footer-section {
-    background: #151414;
-    position: relative;
-}
-
-.cta-text {
-    padding-left: 15px;
-    display: inline-block;
-}
-
-.cta-text h4 {
-    color: #fff;
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 2px;
-}
-
-.cta-text span {
-    color: #757575;
-    font-size: 15px;
-}
-
-.footer-social-icon span {
-    color: #fff;
-    display: block;
-    font-size: 20px;
-    font-weight: 700;
-    font-family: 'Poppins', sans-serif;
-    margin-bottom: 20px;
-}
-
-.copyright-area {
-    background: #202020;
-    padding: 25px 0;
-}
-
-.copyright-text p {
-    margin: 0;
-    font-size: 14px;
-    color: #878787;
-}
-
-.copyright-text p a {
-    color: #ff5e14;
-}
-
-.logo-text2 {
-    font-family: "Old English Text MT", fantasy;
-    font-size: 50px;
-    margin-top: 10px;
+.logoText2 {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+  color: var(--accent-color);
 }
 
 .gbox {
-    border: 2px black solid;
-    margin: 20px;
-    padding: 5px;
-    width: 700px;
-    height: 500px;
-    text-align: center;
+  max-width: 700px; /* Increased width for a larger frame */
+  text-align: center;
+  margin: 2rem auto; /* Centered and added more spacing around */
+  padding: 2rem; /* Increased padding for a more spacious feel */
+  font-size: 1.5rem; /* Increased font size */
+  line-height: 1.8; /* Adjusted line height for readability */
+  background-color: #e9e2ad;
+  border: 3px solid #333; /* Thicker border for a bolder frame */
+  border-radius: 15px; /* Slightly larger border-radius for rounded edges */
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Slightly larger shadow */
+  font-family: "Brush Script MT", cursive; /* Calligraphic font */
+  font-weight: bold;
+  color: #222; /* Darkened text color for contrast */
 }
 
-#box3 {
-    color: black;
-    font-family: "Times New Roman";
-    box-shadow: 5px 5px 5px, 10px 10px 10px grey;
-    margin: 50px;
-    font-size: 30px;
+.bookButton {
+  display: block;
+  width: 200px;
+  padding: 0.8rem 1.5rem;
+  text-align: center;
+  background-color: var(--accent-color);
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.bookButton:hover {
+  background-color: #e55a5a;
+  transform: scale(1.05);
+}
+
+/* Footer styles */
+.footerSection {
+  background-color: #333;
+  color: #ffffff;
+  padding: 0.2rem 0;
+  text-align: center;
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.ctaText h4 {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.ctaText span {
+  display: block;
+  font-size: 1rem;
+  color: #ddd;
+}
+
+.footerIcon {
+  width: 30px;
+  height: auto;
+  margin-left: 0.5rem;
+}
+
+.singleCta {
+  margin: 1.5rem 0;
+}
+
+.footerSocialIcon {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.footerSocialIcon span {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.socialIcon {
+  width: 30px;
+  height: auto;
+  display: inline-block;
+  margin: 0 0.5rem;
+}
+
+.copyrightArea {
+  background-color: #222;
+  padding: 0.25rem 0;
+  font-size: 0.85rem;
+  opacity: 0.8;
 }

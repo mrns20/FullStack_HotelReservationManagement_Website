@@ -1,197 +1,173 @@
-/* Login.css */
-
-* {
-    box-sizing: border-box;
+:root {
+  --primary-color: #00838f; /* Teal blue */
+  --accent-color: #ff5252; /* Bold red-pink */
+  --text-color: #263238; /* Charcoal gray */
+  --bg-color: #eceff1; /* Cool light gray */
+  --nav-bg-color: #ffffff; /* White */
 }
 
 body {
-    max-width: 800px;
-    margin: auto;
-    font-family: sans-serif;
-    background-color: #FAEBD7;
-    margin: 20px;
-    text-align: center;
+  font-family: Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
-nav {
-    background-image: linear-gradient(to bottom, MediumSlateBlue, #0ca0e7);
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-nav ul {
-    list-style-type: none;
-    display: flex;
-    justify-content: flex-start;
-    border: 1px solid black;
-    color: white;
+header {
+  position: relative;
+  width: 100%;
+  top: 0;
 }
 
-nav li {
-    width: 150px;
-    padding: 10px;
-    text-align: center;
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 10rem;
 }
 
-nav a {
-    text-decoration: none;
-    color: inherit;
-    padding: 10px;
-    transition: background-color 0.5s, font-size 0.5s;
+.nav {
+  background-color: var(--nav-bg-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: center;
 }
 
-nav a:hover {
-    text-decoration: underline;
-    background-color: #096b85;
-    font-size: 1.2em;
+.navList {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
 }
 
-nav a:active {
-    text-decoration: underline;
-    background-color: #850920;
+.navItem a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
 }
 
-.book-button {
-    display: inline-block;
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 20px;
-    font-size: 20px;
-    font-weight: bold;
-    font-family: monospace;
-    text-decoration: none;
-    color: black;
-    background-color: lightgray;
-    transition: box-shadow, transform, background-color;
-    transition-duration: 0.1s;
-    box-shadow: 0 5px 0 #817e7e;
+.navItem a:hover {
+  color: var(--accent-color);
 }
 
-.book-button:hover {
-    background-color: #bdbdbd;
-    transform: scale(1.05);
-}
-
-.book-button:active {
-    background-color: #bdbdbd;
-    box-shadow: 0 3px 0 #817e7e;
-    transform: translateY(2px);
-}
-
-.logo-text {
-    font-family: Lucida Calligraphy;
-    font-size: 34px;
-    margin-top: 10px;
-    text-shadow: 5px 5px 5px grey;
-}
-
-ul {
-    margin: 0px;
-    padding: 0px;
-}
-
-.footer-section {
-    background: #151414;
-    position: relative;
-}
-
-.cta-text {
-    padding-left: 15px;
-    display: inline-block;
-}
-
-.cta-text h4 {
-    color: #fff;
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 2px;
-}
-
-.cta-text span {
-    color: #757575;
-    font-size: 15px;
-}
-
-.footer-social-icon span {
-    color: #fff;
-    display: block;
-    font-size: 20px;
-    font-weight: 700;
-    font-family: 'Poppins', sans-serif;
-    margin-bottom: 20px;
-}
-
-.copyright-area {
-    background: #202020;
-    padding: 25px 0;
-}
-
-.copyright-text p {
-    margin: 0;
-    font-size: 14px;
-    color: #878787;
-}
-
-.copyright-text p a {
-    color: #ff5e14;
-}
-
-.login-page {
-    width: 360px;
-    padding: 8% 0 0;
-    margin: auto;
-}
-
-.login-page .form .login {
-    margin-top: -31px;
-    margin-bottom: 26px;
+.logoText {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 2rem 0;
+  color: var(--primary-color);
 }
 
 .form {
-    position: relative;
-    z-index: 1;
-    background: #FFFFFF;
-    max-width: 360px;
-    margin: 0 auto 100px;
-    padding: 45px;
-    text-align: center;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-    background-color: LightSteelBlue;
-    font-family: "Roboto", sans-serif;
+  background-color: #ffffff;
+  padding: 3rem;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 300px;
 }
 
-.form input {
-    font-family: "Roboto", sans-serif;
-    outline: 0;
-    background: #f2f2f2;
-    width: 100%;
-    border: 0;
-    margin: 0 0 15px;
-    padding: 15px;
-    box-sizing: border-box;
-    font-size: 14px;
+.loginForm input {
+  width: 90%;
+  padding: 0.8rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
-.form button {
-    font-family: "Roboto", sans-serif;
-    text-transform: uppercase;
-    outline: 0;
-    background-color: #328f8a;
-    background-image: linear-gradient(45deg, #328f8a, #08ac4b);
-    width: 100%;
-    border: 0;
-    padding: 15px;
-    color: #FFFFFF;
-    font-size: 14px;
-    cursor: pointer;
+.submitButton {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: var(--accent-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.form .message {
-    margin: 15px 0 0;
-    color: black;
-    font-size: 14px;
+.submitButton:hover {
+  background-color: #e55a5a;
 }
 
-.form .message a {
-    color: Navy;
-    text-decoration: none;
+.message {
+  color: var(--text-color);
+  font-size: 0.9rem;
+}
+
+.footerSection {
+  background-color: #333;
+  color: #ffffff;
+  padding: 0.2rem 0;
+  text-align: center;
+}
+
+/* Other footer styles as in HomePage.module.css */
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.ctaText h4 {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.ctaText span {
+  display: block;
+  font-size: 1rem;
+  color: #ddd;
+}
+
+.footerIcon {
+  width: 30px;
+  height: auto;
+  margin-left: 0.5rem;
+}
+
+.singleCta {
+  margin: 1.5rem 0;
+}
+
+.footerSocialIcon {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.footerSocialIcon span {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.socialIcon {
+  width: 30px;
+  height: auto;
+  display: inline-block;
+  margin: 0 0.5rem;
+}
+
+.copyrightArea {
+  width: 100%;
+  background-color: #222;
+  padding: 0.25rem 0;
+  font-size: 0.85rem;
+  opacity: 0.8;
 }

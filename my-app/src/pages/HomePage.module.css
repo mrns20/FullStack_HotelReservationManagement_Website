@@ -1,136 +1,39 @@
-/** {
-  box-sizing: border-box;
-}
-
-body {
-  max-width: 800px;
-  margin: auto;
-  font-family: sans-serif;
-  background-color: #faebd7;
-  margin: 20px;
-  text-align: center;
-}
-
-nav a {
-  text-decoration: none;
-  color: inherit;
-  padding: 10px;
-  transition: background-color 0.5s, font-size 0.5s;
-}
-
-nav a:hover {
-  text-decoration: underline;
-  background-color: #096b85;
-  font-size: 1.2em;
-}
-
-nav a:active {
-  text-decoration: underline;
-  background-color: #850920;
-}
-
-.book-button {
-  display: inline-block;
-  border: 1px solid black;
-  border-radius: 10px;
-  padding: 10px;
-  margin: 20px;
-  font-size: 20px;
-  font-weight: bold;
-  font-family: monospace;
-  text-decoration: none;
-  color: black;
-  background-color: lightgray;
-  transition: box-shadow, transform, background-color;
-  transition-duration: 0.1s;
-  box-shadow: 0 5px 0 #817e7e;
-}
-
-.book-button:hover {
-  background-color: #bdbdbd;
-  transform: scale(1.05);
-}
-
-.book-button:active {
-  background-color: #bdbdbd;
-  box-shadow: 0 3px 0 #817e7e;
-  transform: translateY(2px);
-}
-
-.logo-text {
-  font-family: Lucida Calligraphy;
-  font-size: 34px;
-  margin-top: 10px;
-  text-shadow: 5px 5px 5px grey;
-}
-
-ul {
-  margin: 0px;
-  padding: 0px;
-  justify-content: center;
-}
-
-.footer-section {
-  background: #141313;
-  position: relative;
-}
-
-.cta-text {
-  padding-left: 15px;
-  display: inline-block;
-}
-
-.cta-text h4 {
-  color: #fff;
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 2px;
-}
-
-.cta-text span {
-  color: #757575;
-  font-size: 15px;
-}
-
-.footer-social-icon span {
-  color: #fff;
-  display: block;
-  font-size: 20px;
-  font-weight: 700;
-  font-family: "Poppins", sans-serif;
-  margin-bottom: 20px;
-}
-
-.copyright-area {
-  background: #202020;
-  padding: 25px 0;
-}
-
-.copyright-text p {
-  margin: 0;
-  font-size: 14px;
-  color: #878787;
-}
-
-.copyright-text p a {
-  color: #ff5e14;
-}
-*/
-
 /* HomePage.module.css */
 
 :root {
-  --primary-color: #4a90e2; /* A calming blue color */
-  --accent-color: #ff6b6b; /* An eye-catching coral for the button */
-  --text-color: #333333; /* Dark gray for readability */
-  --bg-color: #f9f9f9; /* Light gray background */
-  --nav-bg-color: #ffffff; /* White background for the navbar */
+  --primary-color: #00838f; /* Teal blue */
+  --accent-color: #ff5252; /* Bold red-pink */
+  --text-color: #263238; /* Charcoal gray */
+  --bg-color: #eceff1; /* Cool light gray */
+  --nav-bg-color: #ffffff; /* White */
 }
 
 body {
   font-family: Arial, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
+}
+
+/* HomePage.module.css */
+
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures the page takes the full viewport height */
+}
+
+header {
+  position: relative;
+  width: 100%;
+  top: 0;
+}
+.mainContent {
+  flex: 1; /* This will push the footer down to the bottom of the page */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20rem; /* Adds space between button and footer */
 }
 
 .nav {
@@ -141,24 +44,24 @@ body {
   justify-content: center;
 }
 
-.nav-list {
+.navList {
   list-style: none;
   display: flex;
   gap: 1.5rem;
 }
 
-.nav-item a {
+.navItem a {
   color: var(--primary-color);
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s;
 }
 
-.nav-item a:hover {
+.navItem a:hover {
   color: var(--accent-color);
 }
 
-.logo-text {
+.logoText {
   font-size: 2rem;
   font-weight: bold;
   text-align: center;
@@ -166,11 +69,10 @@ body {
   color: var(--primary-color);
 }
 
-.book-button {
+.bookButton {
   display: block;
   width: 200px;
   padding: 0.8rem 1.5rem;
-  margin: 0 auto;
   text-align: center;
   background-color: var(--accent-color);
   color: #ffffff;
@@ -181,7 +83,74 @@ body {
   transition: background-color 0.3s, transform 0.2s;
 }
 
-.book-button:hover {
+.bookButton:hover {
   background-color: #e55a5a;
   transform: scale(1.05);
+}
+
+/* Footer Styles */
+
+.footerSection {
+  background-color: #333;
+  color: #ffffff;
+  padding: 0.2rem 0;
+  text-align: center;
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.ctaText h4 {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.ctaText span {
+  display: block;
+  font-size: 1rem;
+  color: #ddd;
+}
+
+.footerIcon {
+  width: 30px;
+  height: auto;
+  margin-left: 0.5rem;
+}
+
+.singleCta {
+  margin: 1.5rem 0;
+}
+
+.footerSocialIcon {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.footerSocialIcon span {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.socialIcon {
+  width: 30px;
+  height: auto;
+  display: inline-block;
+  margin: 0 0.5rem;
+}
+
+.copyrightArea {
+  background-color: #222;
+  padding: 0.25rem 0;
+  font-size: 0.85rem;
+  opacity: 0.8;
 }
