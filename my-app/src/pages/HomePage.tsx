@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import { Link } from "react-router-dom";
 import "./HomePage.module.css"; // Μεταφορά του style σε ξεχωριστό αρχείο
 
@@ -54,6 +54,62 @@ const HomePage: React.FC = () => {
             <li
               style={{ width: "150px", padding: "10px", textAlign: "center" }}
             >
+              <Link to="/rooms">Rooms</Link>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <div className="logo-text">Hotel Gourdo</div>
+      <a
+        id="BookNowButton"
+        className="book-button"
+        href="/book-now"
+        onClick={openBookNowPage}
+      >
+        Book Now
+      </a>
+    </div>
+  );
+};
+
+export default HomePage;
+*/
+
+import React from "react";
+import { Link } from "react-router-dom";
+import "./HomePage.module.css"; // Import CSS module
+
+const HomePage: React.FC = () => {
+  const hasVisitedLoginPage = () => {
+    return localStorage.getItem("visitedLoginPage") === "true";
+  };
+
+  const openBookNowPage = (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    if (!hasVisitedLoginPage()) {
+      event.preventDefault();
+      alert("Please visit the Login page first.");
+    } else {
+      alert("Opening Book Now Form");
+    }
+  };
+
+  return (
+    <div>
+      <header>
+        <nav className="nav">
+          <ul className="nav-list">
+            <li className="nav-item">
+              <Link to="/login">Login</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/need-help">Need help?</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/about-us">About Us</Link>
+            </li>
+            <li className="nav-item">
               <Link to="/rooms">Rooms</Link>
             </li>
           </ul>

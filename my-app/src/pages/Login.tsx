@@ -1,5 +1,5 @@
 // Login.tsx
-import React, { useState } from "react";
+/*import React, { useState } from "react";
 import "./Login.module.css"; // Εισαγωγή των στυλ
 
 const Login: React.FC = () => {
@@ -68,6 +68,89 @@ const Login: React.FC = () => {
           />
           <br />
           <button type="submit">Login</button>
+        </form>
+
+        <p className="message">
+          Not registered? <a href="/sign-up">Create an account</a>
+        </p>
+
+        {message && <p className="message">{message}</p>}
+      </div>
+    </div>
+  );
+};
+
+export default Login;
+*/
+import React, { useState } from "react";
+import "./Login.module.css";
+
+const Login: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (email === "example@email.com" && password === "password123") {
+      setMessage("Welcome to Hotel Gourdo!");
+    } else {
+      setMessage("Invalid credentials. Please try again.");
+    }
+  };
+
+  return (
+    <div className="login-page">
+      <header>
+        <nav className="nav">
+          <ul className="nav-list">
+            <li className="nav-item">
+              <a href="/login">Login</a>
+            </li>
+            <li className="nav-item">
+              <a href="/need-help">Need help?</a>
+            </li>
+            <li className="nav-item">
+              <a href="/about-us">About Us</a>
+            </li>
+            <li className="nav-item">
+              <a href="/rooms">Rooms</a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      <div className="logo-text">Hotel Gourdo</div>
+
+      <div className="form">
+        <h3>LOGIN</h3>
+        <p>Please enter your credentials to login.</p>
+
+        <form className="login-form" onSubmit={handleLogin}>
+          <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <br />
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            minLength={8}
+            maxLength={12}
+            required
+          />
+          <br />
+          <button type="submit" className="submit-button">
+            Login
+          </button>
         </form>
 
         <p className="message">
