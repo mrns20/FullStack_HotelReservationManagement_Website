@@ -1,8 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
 import styles from "./HomePage.module.css";
 
 const HomePage: React.FC = () => {
+  const [redirectToLogin, setRedirectToLogin] = useState(false); // State for redirection
+
   const hasVisitedLoginPage = () => {
     return localStorage.getItem("visitedLoginPage") === "true";
   };
@@ -11,20 +13,24 @@ const HomePage: React.FC = () => {
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     if (!hasVisitedLoginPage()) {
-      event.preventDefault();
-      alert("Please visit the Login page first.");
+      event.preventDefault(); // Prevent the default navigation behavior
+      alert("You need to login in order to proceed.");
+      setRedirectToLogin(true); // Set redirection state to true
     } else {
       alert("Opening Book Now Form");
     }
   };
 
+  // Redirect to the login page if the state is set
+  if (redirectToLogin) {
+    return <Navigate to="/login" />;
+  }
+
   return (
     <div className={styles.pageWrapper}>
       {" "}
-      {/* Added pageWrapper div */}
       <div className={styles.mainContent}>
         {" "}
-        {/* Added mainContent div */}
         <header>
           <nav className={styles.nav}>
             <ul className={styles.navList}>
