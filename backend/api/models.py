@@ -12,7 +12,7 @@ availability_validator = RegexValidator(regex=r'^(yes|no)$', message='Invalid av
 
 class Client(models.Model):
     c_id = models.AutoField(primary_key=True)
-    email = models.CharField(max_length=20, unique=True, validators=[email_validator])
+    email = models.CharField(max_length=50, unique=True, validators=[email_validator])
     password = models.CharField(max_length=12, validators=[password_validator])
     firstname = models.CharField(max_length=15, validators=[greek_name_validator])
     lastname = models.CharField(max_length=15, validators=[greek_name_validator])
@@ -26,7 +26,10 @@ class Client(models.Model):
             models.CheckConstraint(check=models.Q(lastname__regex=r'^[Α-ΩΆΈΉΊΌΎΏα-ωάέήίόύώ]*$'), name='chk_lastname'),
             models.CheckConstraint(check=models.Q(tel__regex=r'^[0-9]+$'), name='chk_tel')
         ]
-
+        
+    def __str__(self):
+        return self.title
+    
 class Staff(models.Model):
     s_id = models.AutoField(primary_key=True)
     s_email = models.CharField(max_length=20, unique=True, validators=[s_email_validator])
