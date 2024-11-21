@@ -26,7 +26,7 @@ class Client(models.Model):
             models.CheckConstraint(check=models.Q(lastname__regex=r'^[Α-ΩΆΈΉΊΌΎΏα-ωάέήίόύώ]*$'), name='chk_lastname'),
             models.CheckConstraint(check=models.Q(tel__regex=r'^[0-9]+$'), name='chk_tel')
         ]
-
+'''
 class Staff(models.Model):
     s_id = models.AutoField(primary_key=True)
     s_email = models.CharField(max_length=20, unique=True, validators=[s_email_validator])
@@ -115,4 +115,5 @@ def calculate_cost_before_insert(sender, instance, **kwargs):
     booking = Booking.objects.get(b_id=instance.b_id.b_id)
     room = Room.objects.get(r_id=booking.r_id.r_id)
     num_days = (booking.departure - booking.arrival).days
-    instance.cost = num_days * room.r_cost
+    instance.cost = num_days * room.r_cost 
+'''
