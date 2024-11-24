@@ -146,3 +146,28 @@
   font-size: 0.85rem;
   opacity: 0.8;
 }
+
+.nav {
+  background-color: var(--nav-bg-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: left;
+}
+
+.navList {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navItem a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.navItem a:hover {
+  color: var(--accent-color);
+}

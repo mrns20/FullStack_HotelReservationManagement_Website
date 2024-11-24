@@ -29,6 +29,9 @@ const HomePage: React.FC = () => {
           <nav className={styles.nav}>
             <ul className={styles.navList}>
               <li className={styles.navItem}>
+                <Link to="/">HomePage</Link>
+              </li>
+              <li className={styles.navItem}>
                 <Link to="/login">Login</Link>
               </li>
               <li className={styles.navItem}>

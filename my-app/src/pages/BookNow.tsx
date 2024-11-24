@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import styles from "./BookNow.module.css"; // Import the CSS module
+import styles from "./BookNow.module.css";
+import {Link} from "react-router-dom"; // Import the CSS module
 
 const BookNow: React.FC = () => {
   const [arrival, setArrival] = useState("");
@@ -24,6 +25,15 @@ const BookNow: React.FC = () => {
 
   return (
     <div className={styles.pageWrapper}>
+      <header>
+        <nav className={styles.nav}>
+          <ul className={styles.navList}>
+            <li className={styles.navItem}>
+              <Link to="/">HomePage</Link>
+            </li>
+          </ul>
+        </nav>
+      </header>
       <div className={styles.mainContent}>
         <div className={styles.logoText}>Hotel Gourdo</div>
         <div className={styles.logoText2}>- Book Now -</div>

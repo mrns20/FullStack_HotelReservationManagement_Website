@@ -1,12 +1,29 @@
 import React from "react";
 import styles from "./Rooms.module.css";
+import {Link} from "react-router-dom";
 
 const Rooms: React.FC = () => {
+    const hasVisitedLoginPage = () => {
+      return localStorage.getItem("visitedLoginPage") === "true";
+    };
+    const openBookNowPage = (
+        event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+    ) => {
+      if (!hasVisitedLoginPage()) {
+        event.preventDefault();
+        alert("Please visit the Login page first.");
+      } else {
+        alert("Opening Book Now Form");
+      }
+    };
   return (
     <div className={styles.pageWrapper}>
       <header>
         <nav className={styles.nav}>
           <ul className={styles.navList}>
+            <li className={styles.navItem}>
+              <Link to="/">HomePage</Link>
+            </li>
             <li className={styles.navItem}>
               <a href="/login">Login</a>
             </li>
@@ -74,8 +91,13 @@ const Rooms: React.FC = () => {
           </div>
         </div>
 
-        <a id="BookNowButton" className={styles.bookButton} href="/book-now">
-          Book Now
+        <a
+            id="BookNowButton"
+            className={styles.bookButton}
+            href="/book-now"
+           onClick={openBookNowPage}
+        >
+           Book Now
         </a>
       </div>
 

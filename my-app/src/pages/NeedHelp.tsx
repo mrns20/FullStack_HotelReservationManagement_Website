@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./NeedHelp.module.css";
+import {Link} from "react-router-dom";
 
 const NeedHelp: React.FC = () => {
   const [firstName, setFirstName] = useState("");
@@ -37,6 +38,9 @@ const NeedHelp: React.FC = () => {
       <header>
         <nav className={styles.nav}>
           <ul className={styles.navList}>
+            <li className={styles.navItem}>
+              <Link to="/">HomePage</Link>
+            </li>
             <li className={styles.navItem}>
               <a href="/login">Login</a>
             </li>
