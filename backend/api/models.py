@@ -30,6 +30,7 @@ availability_validator = RegexValidator(regex=r'^(yes|no)$', message='Invalid av
 
 class Client(models.Model):
     c_id = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=20, unique=True, default='defaultus')
     email = models.CharField(max_length=50, unique=True, validators=[email_validator])
     password = models.CharField(max_length=12, validators=[password_validator])
     firstname = models.CharField(max_length=15, validators=[greek_name_validator])
@@ -40,6 +41,7 @@ class Client(models.Model):
         db_table = 'Client'
 
         constraints = [
+            models.CheckConstraint(check=models.Q(username__regex=r'^[a-zA-Z0-9)]{3,20}$'), name='chk_username'),
             models.CheckConstraint(
                 check=models.Q(password__regex=r'^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};\':",.<>\/?]{8,12}$'),
                 name='chk_password'),
@@ -80,42 +82,10 @@ class Staff(models.Model):
         ]
 
 
-'''
-class Rooms(models.Model):
-    r_id = models.AutoField(primary_key=True)
-    capacity = models.IntegerField(choices=[(2, '2'), (3, '3'), (4, '4')])
-    availability = models.CharField(max_length=3, validators=[availability_validator])
-    r_cost = models.IntegerField()
-
-    class Meta:
-        db_table = 'Rooms'
-
-        constraints = [
-            models.CheckConstraint(check=models.Q(capacity__in=[2, 3, 4]), name='chk_capacity'),
-            models.CheckConstraint(check=models.Q(availability__in=['yes', 'no']), name='chk_availability')
-        ]
-
-
-class Booking(models.Model):
-    b_id = models.AutoField(primary_key=True)
-    c_id = models.ForeignKey(Client, on_delete=models.CASCADE)
-    r_id = models.ForeignKey(Rooms, on_delete=models.CASCADE)
-    arrival = models.DateField()
-    departure = models.DateField()
-
-    class Meta:
-        db_table = 'Booking'
-
-        constraints = [
-            models.CheckConstraint(check=models.Q(arrival__lt=models.F('departure')),
-                                   name='chk_arrival_before_departure')
-        ]
-
-
 class Message(models.Model):
     m_id = models.AutoField(primary_key=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    m_email = models.CharField(max_length=20, validators=[email_validator])
+    m_email = models.CharField(max_length=30)
     m_firstname = models.CharField(max_length=15, validators=[greek_name_validator])
     m_lastname = models.CharField(max_length=15, validators=[greek_name_validator])
     m_tel = models.CharField(max_length=10, validators=[tel_validator])
@@ -125,13 +95,45 @@ class Message(models.Model):
         db_table = 'Message'
 
         constraints = [
-            models.CheckConstraint(check=models.Q(m_email__regex=r'%@%.%') & ~models.Q(m_email__regex=r'%@%.%@%'),
+            models.CheckConstraint(check=models.Q(m_email__regex=r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'),
                                    name='chk_m_email'),
             models.CheckConstraint(check=models.Q(m_firstname__regex=r'^[Α-ΩΆΈΉΊΌΎΏα-ωάέήίόύώ]*$'),
                                    name='chk_m_firstname'),
             models.CheckConstraint(check=models.Q(m_lastname__regex=r'^[Α-ΩΆΈΉΊΌΎΏα-ωάέήίόύώ]*$'),
                                    name='chk_m_lastname'),
             models.CheckConstraint(check=models.Q(m_tel__regex=r'^[0-9]+$'), name='chk_m_tel')
+        ]
+
+
+class Room(models.Model):
+    r_id = models.CharField(max_length=3, primary_key=True)
+    capacity = models.IntegerField(choices=[(2, '2'), (3, '3'), (4, '4')])
+    availability = models.CharField(max_length=3, validators=[availability_validator])
+    r_cost = models.IntegerField()
+
+    class Meta:
+        db_table = 'Room'
+
+        constraints = [
+            models.CheckConstraint(check=models.Q(capacity__in=[2, 3, 4]), name='chk_capacity'),
+            models.CheckConstraint(check=models.Q(availability__in=['yes', 'no']), name='chk_availability')
+        ]
+
+
+''' 
+class Booking(models.Model):
+    b_id = models.AutoField(primary_key=True)
+    c_id = models.ForeignKey(Client, on_delete=models.CASCADE)
+    r_id = models.ForeignKey(Room, on_delete=models.CASCADE)
+    arrival = models.DateField()
+    departure = models.DateField()
+
+    class Meta:
+        db_table = 'Booking'
+
+        constraints = [
+            models.CheckConstraint(check=models.Q(arrival__lt=models.F('departure')),
+                                   name='chk_arrival_before_departure')
         ]
 
 
@@ -171,29 +173,32 @@ def calculate_cost_before_insert(sender, instance, **kwargs):
     num_days = (booking.departure - booking.arrival).days
     instance.cost = num_days * room.r_cost
 
+'''
 
+# ΜΗ ΒΓΑΛΕΤΕ ΤΑ ΣΧΟΛΙΑ στο παρακάτω
+''' 
 rooms = [
-    Rooms(r_id=1, capacity=2, availability='yes', r_cost=90),
-    Rooms(r_id=2, capacity=2, availability='yes', r_cost=90),
-    Rooms(r_id=3, capacity=2, availability='yes', r_cost=90),
-    Rooms(r_id=101, capacity=2, availability='yes', r_cost=90),
-    Rooms(r_id=102, capacity=2, availability='yes', r_cost=90),
-    Rooms(r_id=103, capacity=2, availability='yes', r_cost=90),
-    Rooms(r_id=201, capacity=2, availability='yes', r_cost=90),
-    Rooms(r_id=202, capacity=2, availability='yes', r_cost=90),
-    Rooms(r_id=4, capacity=3, availability='yes', r_cost=110),
-    Rooms(r_id=5, capacity=3, availability='yes', r_cost=110),
-    Rooms(r_id=6, capacity=3, availability='yes', r_cost=110),
-    Rooms(r_id=104, capacity=3, availability='yes', r_cost=110),
-    Rooms(r_id=105, capacity=3, availability='yes', r_cost=110),
-    Rooms(r_id=106, capacity=3, availability='yes', r_cost=110),
-    Rooms(r_id=203, capacity=3, availability='yes', r_cost=110),
-    Rooms(r_id=204, capacity=3, availability='yes', r_cost=110),
-    Rooms(r_id=7, capacity=4, availability='yes', r_cost=150),
-    Rooms(r_id=107, capacity=4, availability='yes', r_cost=150),
-    Rooms(r_id=205, capacity=4, availability='yes', r_cost=150),
-    Rooms(r_id=206, capacity=4, availability='yes', r_cost=150),
+    Room(r_id='001', capacity=2, availability='yes', r_cost=90),
+    Room(r_id='002', capacity=2, availability='yes', r_cost=90),
+    Room(r_id='003', capacity=2, availability='yes', r_cost=90),
+    Room(r_id='101', capacity=2, availability='yes', r_cost=90),
+    Room(r_id='102', capacity=2, availability='yes', r_cost=90),
+    Room(r_id='103', capacity=2, availability='yes', r_cost=90),
+    Room(r_id='201', capacity=2, availability='yes', r_cost=90),
+    Room(r_id='202', capacity=2, availability='yes', r_cost=90),
+    Room(r_id='004', capacity=3, availability='yes', r_cost=110),
+    Room(r_id='005', capacity=3, availability='yes', r_cost=110),
+    Room(r_id='006', capacity=3, availability='yes', r_cost=110),
+    Room(r_id='104', capacity=3, availability='yes', r_cost=110),
+    Room(r_id='105', capacity=3, availability='yes', r_cost=110),
+    Room(r_id='106', capacity=3, availability='yes', r_cost=110),
+    Room(r_id='203', capacity=3, availability='yes', r_cost=110),
+    Room(r_id='204', capacity=3, availability='yes', r_cost=110),
+    Room(r_id='007', capacity=4, availability='yes', r_cost=150),
+    Room(r_id='107', capacity=4, availability='yes', r_cost=150),
+    Room(r_id='205', capacity=4, availability='yes', r_cost=150),
+    Room(r_id='206', capacity=4, availability='yes', r_cost=150),
 ]
 
-Rooms.objects.bulk_create(rooms)
+Room.objects.bulk_create(rooms)
 '''
