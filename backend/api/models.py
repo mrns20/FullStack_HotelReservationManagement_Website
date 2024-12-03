@@ -29,7 +29,7 @@ availability_validator = RegexValidator(regex=r'^(yes|no)$', message='Invalid av
 
 
 class Client(models.Model):
-    c_id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=20, unique=True, default='defaultus')
     email = models.CharField(max_length=50, unique=True, validators=[email_validator])
     password = models.CharField(max_length=12, validators=[password_validator])

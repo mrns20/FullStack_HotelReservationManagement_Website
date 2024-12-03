@@ -1,11 +1,11 @@
-from .models import Client, Staff, Message
+from .models import Client, Staff, Message, Room
 from rest_framework import serializers
 
 
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
-        fields = ["c_id", "username", "email", "password", "firstname", "lastname", "tel"]
+        fields = ["id", "username", "email", "password", "firstname", "lastname", "tel"]
         extra_kwargs = {"password": {"write_only": True}}
 
 
@@ -23,9 +23,12 @@ class MessageSerializer(serializers.ModelSerializer):
         fields = ["m_id", "timestamp", "m_email", "m_firstname", "m_lastname", "m_tel", "message"]
 
 
-'''
+class RoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Room
+        fields = ["r_id", "capacity", "availability", "r_cost"]
+
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
-
-'''
