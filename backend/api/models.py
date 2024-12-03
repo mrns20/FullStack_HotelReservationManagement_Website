@@ -3,13 +3,10 @@ from django.core.validators import RegexValidator
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 # Validators
-email_validator = RegexValidator(regex=r'^[^@]+@[^@]+\.[^@]+$', message='Invalid email format')
+email_validator = RegexValidator(regex=r'^[a-zA-Z0-9]*@[a-zA-Z]*\.[a-zA-Z]*$', message='Invalid email format')
 greek_name_validator = RegexValidator(regex=r'^[Α-ΩΆΈΉΊΌΎΏα-ωάέήίόύώ]*$', message='Only Greek characters are allowed')
 tel_validator = RegexValidator(regex=r'^[0-9]+$', message='Only numeric characters are allowed')
-password_validator = RegexValidator(regex=r'^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};\':",.<>\/?]{8,12}$', message='Invalid password format')
-s_email_validator = RegexValidator(regex=r'^[^@]+@hoteldmd\.gr$', message='Invalid staff email format')
-job_descr_validator = RegexValidator(regex=r'^(Reception|Administrator|Programmer)$', message='Invalid job description')
-availability_validator = RegexValidator(regex=r'^(yes|no)$', message='Invalid availability status')
+#password_validator = RegexValidator(regex=r'^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};\':",.<>\/?]{8,12}$', message='Invalid password format')
 
 class ClientManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -17,6 +14,15 @@ class ClientManager(BaseUserManager):
             raise ValueError("Email is required")
         user = self.model(email=self.normalize_email(email), **extra_fields)
         user.set_password(password)
+        user.save(using=self._db)
+        return user
+    
+    def create_superuser(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError("Email is required")
+        user = self.model(email=self.normalize_email(email), password=password, **extra_fields)
+        user.set_password(password)
+        user.is_admin = True
         user.save(using=self._db)
         return user
     
@@ -28,10 +34,12 @@ class Client(AbstractBaseUser):
     lastname = models.CharField(max_length=15, validators=[greek_name_validator])
     tel = models.CharField(max_length=10, validators=[tel_validator])
     #email = models.EmailField(unique=True)  # Use email for login
+    is_staff = models.BooleanField(default=False)  # Explicitly set a default
+    is_superuser = models.BooleanField(default=False)  # Explicitly set a default
     
     class Meta:
         constraints = [
-            models.CheckConstraint(check=models.Q(email__regex=r'%@%.%') & ~models.Q(email__regex=r'%@%.%@%'), name='chk_email'),
+           # models.CheckConstraint(check=models.Q(email__regex=r'%@%.%') & ~models.Q(email__regex=r'%@%.%@%'), name='chk_email'),
             #models.CheckConstraint(check=models.Q(password__regex=r'^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};\':",.<>\/?]{8,12}$'), name='chk_password'),
             models.CheckConstraint(check=models.Q(firstname__regex=r'^[Α-ΩΆΈΉΊΌΎΏα-ωάέήίόύώ]*$'), name='chk_firstname'),
             models.CheckConstraint(check=models.Q(lastname__regex=r'^[Α-ΩΆΈΉΊΌΎΏα-ωάέήίόύώ]*$'), name='chk_lastname'),
