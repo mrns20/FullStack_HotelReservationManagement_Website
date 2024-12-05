@@ -1,4 +1,4 @@
-from .models import Client, Staff, Message, Room
+from .models import Client, Staff, Message, Room, Booking, Payment
 from rest_framework import serializers
 
 
@@ -32,3 +32,20 @@ class RoomSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
+
+
+class BookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Booking
+        fields = ["b_id", "client", "room", "arrival", "departure", "rooms_needed"]
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    # ManyToManyField
+    bookings = serializers.PrimaryKeyRelatedField(queryset=Booking.objects.all(), many=True)
+    class Meta:
+        model = Payment
+        fields = ['p_id', 'bookings', 'cost', 'number', 'name', 'month_year', 'CVV']
+        extra_kwargs = { # Το cost υπολογίζεται μέσω του PaymentService(και της εισόδου του client)
+            'cost': {'required': False}
+        }

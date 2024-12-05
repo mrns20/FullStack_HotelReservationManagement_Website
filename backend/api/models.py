@@ -120,26 +120,27 @@ class Room(models.Model):
         ]
 
 
-''' 
 class Booking(models.Model):
     b_id = models.AutoField(primary_key=True)
-    c_id = models.ForeignKey(Client, on_delete=models.CASCADE)
-    r_id = models.ForeignKey(Room, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)  # foreign key
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)  # foreign key
     arrival = models.DateField()
     departure = models.DateField()
+    rooms_needed = models.IntegerField()  # για κρατήσεις πολλών δωματίων από έναν client(την ίδια χρονική στιγμή)
 
     class Meta:
         db_table = 'Booking'
 
         constraints = [
             models.CheckConstraint(check=models.Q(arrival__lt=models.F('departure')),
-                                   name='chk_arrival_before_departure')
+                                   name='chk_arrival_before_departure'),
+            models.CheckConstraint(check=models.Q(rooms_needed__in=[1, 2, 3]), name='chk_rooms_needed'),
         ]
 
 
 class Payment(models.Model):
     p_id = models.AutoField(primary_key=True)
-    b_id = models.ForeignKey(Booking, on_delete=models.CASCADE)
+    bookings = models.ManyToManyField(Booking)  # ManyToManyField:Δημιουργία ενδιάμεσου πίνακα Payment_bookings
     cost = models.DecimalField(max_digits=6, decimal_places=2)
     number = models.CharField(max_length=16, validators=[
         RegexValidator(regex=r'^[0-9]+$', message='Only numeric characters are allowed')])
@@ -160,20 +161,6 @@ class Payment(models.Model):
             models.CheckConstraint(check=models.Q(CVV__regex=r'^[0-9]+$'), name='chk_CVV')
         ]
 
-
-# Trigger-like logic in Django
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
-
-
-@receiver(pre_save, sender=Payment)
-def calculate_cost_before_insert(sender, instance, **kwargs):
-    booking = Booking.objects.get(b_id=instance.b_id.b_id)
-    room = Rooms.objects.get(r_id=booking.r_id.r_id)
-    num_days = (booking.departure - booking.arrival).days
-    instance.cost = num_days * room.r_cost
-
-'''
 
 # ΜΗ ΒΓΑΛΕΤΕ ΤΑ ΣΧΟΛΙΑ στο παρακάτω
 ''' 

@@ -2,21 +2,18 @@
 # - Χειρίζονται HTTP αιτήματα και απαντήσεις
 # - Καταναλώνουν τις services και τις παρέχουν στο API για επεξεργασία
 
-from django.contrib.auth.hashers import check_password
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status, generics
-
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .services import ClientService, StaffService, MessageService, RoomService, LoginService
-from .serializers import ClientSerializer, StaffSerializer, MessageSerializer, RoomSerializer, LoginSerializer
-from .repositories import ClientRepository, StaffRepository, MessageRepository, RoomRepository
-from .models import Client
+from .services import ClientService, StaffService, MessageService, RoomService, LoginService, BookingService, \
+    PaymentService
+from .serializers import ClientSerializer, StaffSerializer, MessageSerializer, RoomSerializer, LoginSerializer, \
+    BookingSerializer, PaymentSerializer
+from .repositories import ClientRepository, StaffRepository, MessageRepository, RoomRepository, BookingRepository, \
+    PaymentRepository
 
 
 # ClientListCreateView - Δημιουργία και Λήψη Πελατών
@@ -113,6 +110,7 @@ class RoomDetailView(APIView):
         return Response(serializer.data)
 
 
+# Login
 class LoginView(APIView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -134,3 +132,82 @@ class LoginView(APIView):
             else:
                 return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Booking 1)
+class CheckAvailabilityView(APIView):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.room_service = RoomService(room_repository=RoomRepository())
+
+    def post(self, request, *args, **kwargs):
+        arrival = request.data.get('arrival')
+        departure = request.data.get('departure')
+        capacity = request.data.get('capacity')
+        rooms_needed = request.data.get('rooms_needed')
+
+        # συνάρτηση get_available_rooms
+        available_rooms = self.room_service.get_available_rooms(capacity, arrival, departure)
+
+        if len(available_rooms) >= rooms_needed:
+            return Response({"message": "Room(s) available"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"message": "Not enough rooms available"}, status=status.HTTP_404_NOT_FOUND)
+
+
+# Booking 2)
+class ModifyReservationView(APIView):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.booking_service = BookingService(
+            booking_repository=BookingRepository(),
+            room_repository=RoomRepository()
+        )
+        self.login_service = LoginService(client_repository=ClientRepository())
+
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        arrival = request.data.get('arrival')
+        departure = request.data.get('departure')
+        capacity = request.data.get('capacity')
+        rooms_needed = request.data.get('rooms_needed')
+
+        # Postman testing
+        print(f"Received data: {request.data}")
+
+        client = self.login_service.authenticate(username, password)  # ελέγχουμε ότι έχει προηγηθεί το Login
+        if not client:
+            return Response({"message": "Authentication failed"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        # συνάρτηση create_booking
+        bookings, message = self.booking_service.create_booking(client, capacity, arrival, departure, rooms_needed)
+
+        if bookings:
+            return Response({"message": message}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"message": message}, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Payment
+class PaymentView(APIView):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.payment_service = PaymentService(payment_repository=PaymentRepository())
+
+    def post(self, request, *args, **kwargs):
+        serializer = PaymentSerializer(data=request.data)
+        if serializer.is_valid():
+            validated_data = request.data
+            print(f"Validated Data: {validated_data}")  # Postman testing
+            # συνάρτηση create_payment
+            payment = self.payment_service.create_payment(validated_data)
+            response_data = PaymentSerializer(payment).data
+            response_data['message'] = f"Payment successful. Total cost: {response_data['cost']} €"
+            return Response(response_data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, *args, **kwargs):
+        payments = self.payment_service.get_all_payments()
+        serializer = PaymentSerializer(payments, many=True)
+        return Response(serializer.data)

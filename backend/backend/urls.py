@@ -1,6 +1,3 @@
-from django.contrib import admin
-from django.urls import path, include
-
 from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 from django.contrib import admin
 from django.urls import path, include
@@ -17,6 +14,8 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     #-------------------------------------------------------
     path('client/login/', include("api.urls_login")),
+    path('booking/', include("api.urls_booking")),
+    path('payments/', include("api.urls_payments")),
 
 ]
 
