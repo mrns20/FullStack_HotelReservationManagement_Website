@@ -12,7 +12,7 @@ class ClientSerializer(serializers.ModelSerializer):
 class StaffSerializer(serializers.ModelSerializer):
     class Meta:
         model = Staff
-        fields = ["s_id", "s_email", "s_password", "s_firstname", "s_lastname", "s_tel", "salary", "job_descr",
+        fields = ["id", "s_email", "s_firstname", "s_lastname", "s_tel", "salary", "job_descr",
                   "date_of_joining"]
         extra_kwargs = {"password": {"write_only": True}}
 
@@ -33,6 +33,9 @@ class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
 
+class LoginStaffSerializer(serializers.Serializer):
+    s_email = serializers.CharField(required=True)
+    s_password = serializers.CharField(required=True)
 
 class BookingSerializer(serializers.ModelSerializer):
     class Meta:

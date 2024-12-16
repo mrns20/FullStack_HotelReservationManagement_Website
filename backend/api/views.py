@@ -7,11 +7,12 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.shortcuts import redirect
 
 from .services import ClientService, StaffService, MessageService, RoomService, LoginService, BookingService, \
-    PaymentService
+    PaymentService, LoginStaffService
 from .serializers import ClientSerializer, StaffSerializer, MessageSerializer, RoomSerializer, LoginSerializer, \
-    BookingSerializer, PaymentSerializer
+    BookingSerializer, PaymentSerializer, LoginStaffSerializer
 from .repositories import ClientRepository, StaffRepository, MessageRepository, RoomRepository, BookingRepository, \
     PaymentRepository
 
@@ -110,7 +111,7 @@ class RoomDetailView(APIView):
         return Response(serializer.data)
 
 
-# Login
+# Login Πελατών
 class LoginView(APIView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -128,6 +129,30 @@ class LoginView(APIView):
                     'refresh': str(refresh),
                     'access': str(refresh.access_token),
                     'client': ClientSerializer(client).data
+                })
+            else:
+                return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+#Login Υπαλλήλων
+class LoginStaffView(APIView):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.login_staff_service = LoginStaffService(StaffRepository())
+   
+
+    def post(self, request):
+        serializer = LoginStaffSerializer(data=request.data)
+        if serializer.is_valid():
+            s_email = serializer.validated_data['s_email']
+            s_password = serializer.validated_data['s_password']
+            staff = self.login_staff_service.authenticate(s_email, s_password)
+            if staff:
+                refresh = RefreshToken.for_user(staff)
+                return Response({
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
+                    'staff': StaffSerializer(staff).data
                 })
             else:
                 return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)

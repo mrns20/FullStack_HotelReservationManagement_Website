@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from jsonschema.exceptions import ValidationError
+#from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
 # Validators
@@ -27,7 +28,27 @@ tel_validator = RegexValidator(
 job_descr_validator = RegexValidator(regex=r'^(Reception|Administrator|Programmer)$', message='Invalid job description')
 availability_validator = RegexValidator(regex=r'^(yes|no)$', message='Invalid availability status')
 
+'''class StaffManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError("The Email field is required")
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self.create_user(email, password=password, **extra_fields)'''
+    
 class Client(models.Model):
     id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=20, unique=True, default='defaultus')
@@ -52,7 +73,7 @@ class Client(models.Model):
 
 
 class Staff(models.Model):
-    s_id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     s_email = models.CharField(max_length=40, unique=True)
     s_password = models.CharField(max_length=12, validators=[password_validator])
     s_firstname = models.CharField(max_length=15, validators=[greek_name_validator])
@@ -61,6 +82,7 @@ class Staff(models.Model):
     salary = models.IntegerField()
     job_descr = models.CharField(max_length=20, validators=[job_descr_validator])
     date_of_joining = models.DateField()
+
 
     class Meta:
         db_table = 'Staff'

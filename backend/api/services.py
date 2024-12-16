@@ -2,7 +2,7 @@
 # Οι υπηρεσίες(services) επεξεργάζονται τα δεδομένα και χειρίζονται την επιχειρησιακή λογική,
 # πριν επιστρέψουν τα δεδομένα στο χρήστη.
 
-from .models import Client, Booking, Room
+from .models import Client, Booking, Room, Staff
 from .repositories import ClientRepository, StaffRepository, MessageRepository, RoomRepository, BookingRepository, \
     PaymentRepository
 
@@ -52,6 +52,18 @@ def authenticate_client(username, password):
     except Client.DoesNotExist:
         return None
 
+def authenticate_staff(s_email, s_password):
+    try:
+        # Αναζητούμε τον Staff με το συγκεκριμένο email
+        staff = Staff.objects.get(s_email=s_email)
+
+        # Ελέγχουμε αν το password είναι σωστό
+        if s_password == staff.s_password:
+            return staff
+        return None
+    except Staff.DoesNotExist:
+        return None
+
 
 class LoginService:
     def __init__(self, client_repository: ClientRepository):
@@ -59,6 +71,13 @@ class LoginService:
 
     def authenticate(self, username, password):
         return authenticate_client(username, password)
+    
+class LoginStaffService:
+    def __init__(self, staff_repository: StaffRepository):
+        self.staff_repository = staff_repository
+    
+    def authenticate(self, s_email, s_password):
+        return authenticate_staff(s_email, s_password)
 
 
 class RoomService:
