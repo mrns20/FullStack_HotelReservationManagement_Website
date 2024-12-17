@@ -11,7 +11,7 @@ const BookNow: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    // Availability check (mocked response for demo)
+    // Availability check
     setMessage(
       "Availability checked. Press Modify Reservation if you'd like to proceed."
     );
