@@ -4,8 +4,24 @@ from .models import Staff, Booking, Payment, Room
 from .forms import StaffLoginForm
 from django.shortcuts import render, get_object_or_404
 
+# Το αρχείο δημιουργήθηκε με τέτοιο τρόπο ώστε να μην πειραχθεί καθόλου ο υπόλοιπος κώδικας.
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .forms import StaffLoginForm
+from .services import StaffService, BookingService, PaymentService, RoomService
+
 
 # Το αρχείο δημιουργήθηκε με τέτοιο τρόπο ώστε να μην πειραχθεί καθόλου ο υπόλοιπος κώδικας.
+
+class StaffView:
+    def __init__(self, staff_service: StaffService, booking_service: BookingService, payment_service: PaymentService,
+                 room_service: RoomService):
+        self.staff_service = staff_service
+        self.booking_service = booking_service
+        self.payment_service = payment_service
+        self.room_service = room_service
+
 
 def staff_login(request):
     if request.method == 'POST':

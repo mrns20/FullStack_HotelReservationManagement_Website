@@ -2,12 +2,15 @@
 # Οι υπηρεσίες(services) επεξεργάζονται τα δεδομένα και χειρίζονται την επιχειρησιακή λογική,
 # πριν επιστρέψουν τα δεδομένα στο χρήστη.
 
+from injector import inject
+from .repositories import (
+    ClientRepository, StaffRepository, MessageRepository,
+    RoomRepository, BookingRepository, PaymentRepository
+)
 from .models import Client, Booking, Room
-from .repositories import ClientRepository, StaffRepository, MessageRepository, RoomRepository, BookingRepository, \
-    PaymentRepository
-
 
 class ClientService:
+    @inject
     def __init__(self, client_repository: ClientRepository):
         self.client_repository = client_repository
 
@@ -17,8 +20,8 @@ class ClientService:
     def create_client(self, data):
         return self.client_repository.create_client(data)
 
-
 class StaffService:
+    @inject
     def __init__(self, staff_repository: StaffRepository):
         self.staff_repository = staff_repository
 
@@ -28,8 +31,8 @@ class StaffService:
     def create_staff(self, data):
         return self.staff_repository.create_staff(data)
 
-
 class MessageService:
+    @inject
     def __init__(self, message_repository: MessageRepository):
         self.message_repository = message_repository
 
@@ -38,7 +41,6 @@ class MessageService:
 
     def create_message(self, data):
         return self.message_repository.create_message(data)
-
 
 def authenticate_client(username, password):
     try:
@@ -52,16 +54,16 @@ def authenticate_client(username, password):
     except Client.DoesNotExist:
         return None
 
-
 class LoginService:
+    @inject
     def __init__(self, client_repository: ClientRepository):
         self.client_repository = client_repository
 
     def authenticate(self, username, password):
         return authenticate_client(username, password)
 
-
 class RoomService:
+    @inject
     def __init__(self, room_repository: RoomRepository):
         self.room_repository = room_repository
 
@@ -74,8 +76,8 @@ class RoomService:
     def get_available_rooms(self, capacity, arrival, departure):
         return self.room_repository.get_available_rooms(capacity, arrival, departure)
 
-
 class BookingService:
+    @inject
     def __init__(self, booking_repository: BookingRepository, room_repository: RoomRepository):
         self.booking_repository = booking_repository
         self.room_repository = room_repository
@@ -102,8 +104,8 @@ class BookingService:
 
         return bookings, "Booking successful"
 
-
 class PaymentService:
+    @inject
     def __init__(self, payment_repository: PaymentRepository):
         self.payment_repository = payment_repository
 
@@ -133,4 +135,5 @@ class PaymentService:
 
     def get_payment_by_id(self, p_id):
         return self.payment_repository.get_payment_by_id(p_id)
+
 

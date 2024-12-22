@@ -3,9 +3,14 @@
 # - Χειρίζεται τη ΒΔ
 
 from .models import Client, Staff, Message, Room, Booking, Payment
+from injector import inject
 
 
 class ClientRepository:
+    @inject
+    def __init__(self):
+        pass
+
     def get_by_username(self, username):  # χρειάζεται για το Booking
         return Client.objects.get(username=username)
 
@@ -17,6 +22,10 @@ class ClientRepository:
 
 
 class StaffRepository:
+    @inject
+    def __init__(self):
+        pass
+
     def get_all_staff(self):
         return Staff.objects.all()
 
@@ -25,6 +34,10 @@ class StaffRepository:
 
 
 class MessageRepository:
+    @inject
+    def __init__(self):
+        pass
+
     def get_all_messages(self):
         return Message.objects.all()
 
@@ -33,6 +46,10 @@ class MessageRepository:
 
 
 class RoomRepository:
+    @inject
+    def __init__(self):
+        pass
+
     def get_all(self):
         return Room.objects.all()
 
@@ -56,6 +73,10 @@ class RoomRepository:
 
 
 class BookingRepository:
+    @inject
+    def __init__(self):
+        pass
+
     def create_booking(self, data):
         return Booking.objects.create(**data)
 
@@ -68,6 +89,10 @@ class BookingRepository:
 
 
 class PaymentRepository:
+    @inject
+    def __init__(self):
+        pass
+
     def create_payment(self, data):
         payment = Payment.objects.create(**data)
         return payment

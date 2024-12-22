@@ -2,27 +2,29 @@
 # - Χειρίζονται HTTP αιτήματα και απαντήσεις
 # - Καταναλώνουν τις services και τις παρέχουν στο API για επεξεργασία
 
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework import status
-from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from injector import inject
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .services import ClientService, StaffService, MessageService, RoomService, LoginService, BookingService, \
-    PaymentService
-from .serializers import ClientSerializer, StaffSerializer, MessageSerializer, RoomSerializer, LoginSerializer, \
-    BookingSerializer, PaymentSerializer
-from .repositories import ClientRepository, StaffRepository, MessageRepository, RoomRepository, BookingRepository, \
-    PaymentRepository
+from .services import (
+    ClientService, StaffService, MessageService,
+    RoomService, BookingService, PaymentService, LoginService
+)
 
+from .serializers import ClientSerializer, StaffSerializer, MessageSerializer, RoomSerializer, LoginSerializer, \
+    PaymentSerializer
 
 # ClientListCreateView - Δημιουργία και Λήψη Πελατών
 class ClientListCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def __init__(self, **kwargs):
+    @inject
+    def __init__(self, client_service: ClientService, **kwargs):
         super().__init__(**kwargs)
-        self.client_service = ClientService(ClientRepository())
+        self.client_service = client_service
 
     def get(self, request):
         # Λήψη όλων των πελατών
@@ -42,9 +44,10 @@ class ClientListCreateView(APIView):
 
 # StaffListCreateView - Δημιουργία και Λήψη Υπαλλήλων
 class StaffListCreateView(APIView):
-    def __init__(self, **kwargs):
+    @inject
+    def __init__(self, staff_service: StaffService, **kwargs):
         super().__init__(**kwargs)
-        self.staff_service = StaffService(StaffRepository())
+        self.staff_service = staff_service
 
     def get(self, request):
         # Λήψη όλων των υπαλλήλων
@@ -64,21 +67,19 @@ class StaffListCreateView(APIView):
 
 # MessageListCreateView - Δημιουργία και Λήψη Μηνυμάτων
 class MessageListCreateView(APIView):
-    def __init__(self, **kwargs):
+    @inject
+    def __init__(self, message_service: MessageService, **kwargs):
         super().__init__(**kwargs)
-        self.message_service = MessageService(MessageRepository())
+        self.message_service = message_service
 
     def get(self, request):
-        # Λήψη όλων των μηνυμάτων
         messages = self.message_service.get_all_messages()
         serializer = MessageSerializer(messages, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        # Δημιουργία νέου μηνύματος
         serializer = MessageSerializer(data=request.data)
         if serializer.is_valid():
-            # Δημιουργία μηνύματος μέσω της υπηρεσίας
             message = self.message_service.create_message(serializer.validated_data)
             return Response(MessageSerializer(message).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -86,12 +87,12 @@ class MessageListCreateView(APIView):
 
 # RoomListView - Λήψη όλων των δωματίων
 class RoomListView(APIView):
-    def __init__(self, **kwargs):
+    @inject
+    def __init__(self, room_service: RoomService, **kwargs):
         super().__init__(**kwargs)
-        self.room_service = RoomService(RoomRepository())
+        self.room_service = room_service
 
     def get(self, request):
-        # Λήψη όλων των δωματίων
         rooms = self.room_service.get_all_rooms()
         serializer = RoomSerializer(rooms, many=True)
         return Response(serializer.data)
@@ -99,9 +100,10 @@ class RoomListView(APIView):
 
 # RoomDetailView - Λήψη συγκεκριμένου δωματίου
 class RoomDetailView(APIView):
-    def __init__(self, **kwargs):
+    @inject
+    def __init__(self, room_service: RoomService, **kwargs):
         super().__init__(**kwargs)
-        self.room_service = RoomService(RoomRepository())
+        self.room_service = room_service
 
     def get(self, request, r_id):
         # Λήψη δωματίου με βάση το r_id
@@ -110,11 +112,12 @@ class RoomDetailView(APIView):
         return Response(serializer.data)
 
 
-# Login
+# Client Login
 class LoginView(APIView):
-    def __init__(self, **kwargs):
+    @inject
+    def __init__(self, login_service: LoginService, **kwargs):
         super().__init__(**kwargs)
-        self.login_service = LoginService(ClientRepository())
+        self.login_service = login_service
 
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
@@ -125,9 +128,9 @@ class LoginView(APIView):
             if client:
                 refresh = RefreshToken.for_user(client)
                 return Response({
-                    'refresh': str(refresh),
-                    'access': str(refresh.access_token),
-                    'client': ClientSerializer(client).data
+                    'refresh': str(refresh),  # !!!
+                    'access': str(refresh.access_token),  # !!!
+                    'client': ClientSerializer(client).data  # !!!
                 })
             else:
                 return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
@@ -136,9 +139,10 @@ class LoginView(APIView):
 
 # Booking 1)
 class CheckAvailabilityView(APIView):
-    def __init__(self, **kwargs):
+    @inject
+    def __init__(self, room_service: RoomService, **kwargs):
         super().__init__(**kwargs)
-        self.room_service = RoomService(room_repository=RoomRepository())
+        self.room_service = room_service
 
     def post(self, request, *args, **kwargs):
         arrival = request.data.get('arrival')
@@ -148,7 +152,6 @@ class CheckAvailabilityView(APIView):
 
         # συνάρτηση get_available_rooms
         available_rooms = self.room_service.get_available_rooms(capacity, arrival, departure)
-
         if len(available_rooms) >= rooms_needed:
             return Response({"message": "Room(s) available"}, status=status.HTTP_200_OK)
         else:
@@ -157,13 +160,11 @@ class CheckAvailabilityView(APIView):
 
 # Booking 2)
 class ModifyReservationView(APIView):
-    def __init__(self, **kwargs):
+    @inject
+    def __init__(self, booking_service: BookingService, login_service: LoginService, **kwargs):
         super().__init__(**kwargs)
-        self.booking_service = BookingService(
-            booking_repository=BookingRepository(),
-            room_repository=RoomRepository()
-        )
-        self.login_service = LoginService(client_repository=ClientRepository())
+        self.booking_service = booking_service
+        self.login_service = login_service
 
     def post(self, request, *args, **kwargs):
         username = request.data.get('username')
@@ -173,16 +174,12 @@ class ModifyReservationView(APIView):
         capacity = request.data.get('capacity')
         rooms_needed = request.data.get('rooms_needed')
 
-        # Postman testing
-        print(f"Received data: {request.data}")
-
-        client = self.login_service.authenticate(username, password)  # ελέγχουμε ότι έχει προηγηθεί το Login
+        client = self.login_service.authenticate(username, password)
         if not client:
             return Response({"message": "Authentication failed"}, status=status.HTTP_401_UNAUTHORIZED)
 
         # συνάρτηση create_booking
         bookings, message = self.booking_service.create_booking(client, capacity, arrival, departure, rooms_needed)
-
         if bookings:
             return Response({"message": message}, status=status.HTTP_201_CREATED)
         else:
@@ -191,15 +188,15 @@ class ModifyReservationView(APIView):
 
 # Payment
 class PaymentView(APIView):
-    def __init__(self, **kwargs):
+    @inject
+    def __init__(self, payment_service: PaymentService, **kwargs):
         super().__init__(**kwargs)
-        self.payment_service = PaymentService(payment_repository=PaymentRepository())
+        self.payment_service = payment_service
 
     def post(self, request, *args, **kwargs):
         serializer = PaymentSerializer(data=request.data)
         if serializer.is_valid():
             validated_data = request.data
-            print(f"Validated Data: {validated_data}")  # Postman testing
             # συνάρτηση create_payment
             payment = self.payment_service.create_payment(validated_data)
             response_data = PaymentSerializer(payment).data
