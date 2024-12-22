@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Staff Dashboard</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2, h3 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .table-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4c82af;
+            color: white;
+            text-align: center;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .actions button {
+            padding: 5px 10px;
+            color: #fff;
+            background-color: #d9534f;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .actions button:hover {
+            background-color: #c9302c;
+        }
+
+        .search-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .search-container form {
+            display: inline-block;
+        }
+
+        .search-container input, .search-container button {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .search-container input {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .search-container button {
+            background-color: #354859;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .search-container button:hover {
+            background-color: #042138;
+        }
+    </style>
+</head>
+<body>
+<h2>Staff Dashboard</h2>
+
+<h3>Bookings</h3>
+<div class="table-container">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Client</th>
+            <th>Room</th>
+            <th>Check-in Date</th>
+            <th>Check-out Date</th>
+            <th>No. of Rooms</th>
+            <th>Actions</th>
+        </tr>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.b_id }}</td>
+            <!-- Εμφανίζεται το firstname και το lastname του πελάτη -->
+            <td>{{ booking.client.firstname }} {{ booking.client.lastname }}</td>
+            <!-- Εμφανίζεται το r_id του δωματίου -->
+            <td>{{ booking.room.r_id }}</td>
+            <td>{{ booking.arrival }}</td>
+            <td>{{ booking.departure }}</td>
+            <td>{{ booking.rooms_needed }}</td>
+            <td class="actions">
+                {% if booking.b_id %}
+                <form method="POST" action="{% url 'delete_booking' booking.b_id %}">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+                {% else %}
+                <span>No ID available</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" style="text-align: center;">No bookings available.</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<h3>Payment History</h3>
+<div class="table-container">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Cost</th>
+            <th>Card Number</th>
+            <th>Name</th>
+            <th>Expiry Date</th>
+            <th>CVV</th>
+        </tr>
+        {% for payment in payments %}
+        <tr>
+            <td>{{ payment.p_id }}</td>
+            <td>{{ payment.cost }}</td>
+            <td>{{ payment.masked_number }}</td>
+            <td>{{ payment.name }}</td>
+            <td>{{ payment.masked_month_year }}</td>
+            <td>{{ payment.masked_cvv }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" style="text-align: center;">No payments available.</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<h3>Room History</h3>
+<div class="search-container">
+    <form method="get" action="{% url 'staff_dashboard' %}">
+        <input type="text" name="r_id" placeholder="Enter Room ID" required>
+        <button type="submit">Search Room History</button>
+    </form>
+</div>
+
+{% if room_id %}
+<h3>Room History for Room ID: {{ room_id }}</h3>
+<div class="table-container">
+    <table>
+        <tr>
+            <th>Booking ID</th>
+            <th>Client</th>
+            <th>Check-in Date</th>
+            <th>Check-out Date</th>
+        </tr>
+        {% if room_history %}
+        {% for booking in room_history %}
+        <tr>
+            <td>{{ booking.b_id }}</td>
+            <!-- Εμφανίζεται το firstname και το lastname του πελάτη -->
+            <td>{{ booking.client.firstname }} {{ booking.client.lastname }}</td>
+            <td>{{ booking.arrival }}</td>
+            <td>{{ booking.departure }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" style="text-align: center;">No bookings available for this room.</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="4" style="text-align: center;">No room history available for Room ID: {{ room_id }}.</td>
+        </tr>
+        {% endif %}
+    </table>
+</div>
+{% else %}
+<div class="table-container">
+    <p style="text-align: center;">Please enter a valid Room ID to search for history.</p>
+</div>
+{% endif %}
+
+</body>
+</html>
+
