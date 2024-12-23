@@ -9,6 +9,7 @@ from .repositories import (
 )
 from .models import Client, Booking, Room
 
+
 class ClientService:
     @inject
     def __init__(self, client_repository: ClientRepository):
@@ -19,6 +20,7 @@ class ClientService:
 
     def create_client(self, data):
         return self.client_repository.create_client(data)
+
 
 class StaffService:
     @inject
@@ -31,6 +33,7 @@ class StaffService:
     def create_staff(self, data):
         return self.staff_repository.create_staff(data)
 
+
 class MessageService:
     @inject
     def __init__(self, message_repository: MessageRepository):
@@ -41,6 +44,7 @@ class MessageService:
 
     def create_message(self, data):
         return self.message_repository.create_message(data)
+
 
 def authenticate_client(username, password):
     try:
@@ -54,6 +58,7 @@ def authenticate_client(username, password):
     except Client.DoesNotExist:
         return None
 
+
 class LoginService:
     @inject
     def __init__(self, client_repository: ClientRepository):
@@ -61,6 +66,7 @@ class LoginService:
 
     def authenticate(self, username, password):
         return authenticate_client(username, password)
+
 
 class RoomService:
     @inject
@@ -75,6 +81,7 @@ class RoomService:
 
     def get_available_rooms(self, capacity, arrival, departure):
         return self.room_repository.get_available_rooms(capacity, arrival, departure)
+
 
 class BookingService:
     @inject
@@ -103,6 +110,7 @@ class BookingService:
             bookings.append(booking)
 
         return bookings, "Booking successful"
+
 
 class PaymentService:
     @inject
@@ -135,5 +143,3 @@ class PaymentService:
 
     def get_payment_by_id(self, p_id):
         return self.payment_repository.get_payment_by_id(p_id)
-
-

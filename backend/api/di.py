@@ -1,4 +1,4 @@
-from injector import Module, Binder, singleton
+from injector import Injector, Module, Binder, singleton
 from .services import (
     ClientService, StaffService, MessageService,
     RoomService, BookingService, PaymentService, LoginService
@@ -7,7 +7,11 @@ from .repositories import (
     ClientRepository, StaffRepository, MessageRepository,
     RoomRepository, BookingRepository, PaymentRepository
 )
-from .views_staff import StaffView
+
+from .serializers import (
+    ClientSerializer, StaffSerializer, MessageSerializer,
+    RoomSerializer, BookingSerializer, PaymentSerializer, LoginSerializer
+)
 
 
 class RepositoryModule(Module):
@@ -31,12 +35,20 @@ class ServiceModule(Module):
         binder.bind(LoginService, to=LoginService, scope=singleton)
 
 
-class ViewModule(Module):
+class SerializerModule(Module):
     def configure(self, binder: Binder):
-        binder.bind(StaffView, to=StaffView, scope=singleton)
+        binder.bind(ClientSerializer, to=ClientSerializer)
+        binder.bind(StaffSerializer, to=StaffSerializer)
+        binder.bind(MessageSerializer, to=MessageSerializer)
+        binder.bind(RoomSerializer, to=RoomSerializer)
+        binder.bind(BookingSerializer, to=BookingSerializer)
+        binder.bind(PaymentSerializer, to=PaymentSerializer)
+        binder.bind(LoginSerializer, to=LoginSerializer)
 
 
-def configure(binder: Binder):
-    binder.install(RepositoryModule())
-    binder.install(ServiceModule())
-    binder.install(ViewModule())
+def create_injector():
+    injector = Injector([RepositoryModule(), ServiceModule(), SerializerModule()])
+    return injector
+
+
+injector = create_injector()

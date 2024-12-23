@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from injector import inject
+
 from .models import Staff, Booking, Payment, Room
 from .forms import StaffLoginForm
 from django.shortcuts import render, get_object_or_404
@@ -15,6 +17,7 @@ from .services import StaffService, BookingService, PaymentService, RoomService
 # Το αρχείο δημιουργήθηκε με τέτοιο τρόπο ώστε να μην πειραχθεί καθόλου ο υπόλοιπος κώδικας.
 
 class StaffView:
+    @inject
     def __init__(self, staff_service: StaffService, booking_service: BookingService, payment_service: PaymentService,
                  room_service: RoomService):
         self.staff_service = staff_service

@@ -1,14 +1,15 @@
-import os
-import sys
 from pathlib import Path
 from datetime import timedelta
+import os
 from dotenv import load_dotenv
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(BASE_DIR / 'api'))
 
 # Load environment variables from .env file
 load_dotenv()
+
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -38,6 +39,7 @@ SIMPLE_JWT = {
     'USER_ID_CLAIM': 'user_id',
 }
 
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,11 +47,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api.apps.ApiConfig',  # Χρήση του ApiConfig
+    'api',
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
-    'django_injector',
 ]
 
 MIDDLEWARE = [
@@ -102,6 +103,16 @@ DATABASES = {
     }
 }
 
+
+# Integer value
+#INTEGER_VALUE = int(os.getenv('INTEGER_VALUE'))
+
+# Retrieve the JSON string from the environment variable
+json_string = os.getenv('DICTIONARY_VALUE')
+
+# Convert the JSON string to a dictionary
+#DICTIONARY_VALUE = json.loads(json_string)
+
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -120,6 +131,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -131,18 +143,21 @@ USE_I18N = True
 
 USE_TZ = True
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
+# Static files (CSS, JavaScript, images)
 STATIC_URL = '/static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS= True
+CORS_ALLOW_CREDENTIALS= True
 
 
 
