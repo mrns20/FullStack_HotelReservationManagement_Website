@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import styles from "./BookNow.module.css";
-import {Link} from "react-router-dom"; // Import the CSS module
+import { Link } from "react-router-dom";
+import axiosInstance from "../axiosConfig";
 
 const BookNow: React.FC = () => {
-  const [arrival, setArrival] = useState("");
-  const [departure, setDeparture] = useState("");
-  const [rooms, setRooms] = useState("one");
-  const [guests, setGuests] = useState("two");
-  const [message, setMessage] = useState("");
+  const [arrival, setArrival] = useState<string>(""); // Arrival date
+  const [departure, setDeparture] = useState<string>(""); // Departure date
+  const [rooms_needed, setRoomsNeeded] = useState<number>(1); // Rooms needed (integer)
+  const [capacity, setCapacity] = useState<number>(2); // Number of guests (integer)
+  const [message, setMessage] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -15,12 +17,57 @@ const BookNow: React.FC = () => {
     setMessage(
       "Availability checked. Press Modify Reservation if you'd like to proceed."
     );
+    setError(null);
+
+    try {
+      // Make an API call to check room availability
+      const response = await axiosInstance.post(
+        "/booking/check-availability/",
+        {
+          arrival,
+          departure,
+          capacity,
+          rooms_needed,
+        }
+      );
+
+      if (response.status === 200) {
+        setMessage(
+          "Rooms are available! You can proceed to modify your reservation."
+        );
+      } else {
+        setMessage(
+          "No rooms available for the selected dates. Please try again."
+        );
+      }
+    } catch (error) {
+      setMessage("Error occurred while checking availability.");
+    }
   };
 
   const handleModifyReservation = async (event: React.FormEvent) => {
     event.preventDefault();
-    // Reservation logic (mocked response for demo)
-    setMessage("Reservation Successful!");
+    const username = localStorage.getItem("username"); // Get the username from localStorage
+    const token = localStorage.getItem("token"); // JWT token from localStorage
+    try {
+      const response = await axiosInstance.post(
+        "/booking/modify-reservation/",
+        {
+          username,
+          password: token, // Assuming you use token for authorization or get the password securely
+          arrival,
+          departure,
+          capacity,
+          rooms_needed,
+        }
+      );
+
+      if (response.status === 201) {
+        setMessage("Reservation modified successfully!");
+      }
+    } catch (err) {
+      setError("Failed to modify reservation.");
+    }
   };
 
   return (
@@ -60,7 +107,10 @@ const BookNow: React.FC = () => {
 
           <div className={styles.formGroup}>
             <label>No. of Rooms: </label>
-            <select value={rooms} onChange={(e) => setRooms(e.target.value)}>
+            <select
+              value={rooms_needed}
+              onChange={(e) => setRoomsNeeded(Number(e.target.value))}
+            >
               <option value="one">1</option>
               <option value="two">2</option>
               <option value="three">3</option>
@@ -69,7 +119,10 @@ const BookNow: React.FC = () => {
 
           <div className={styles.formGroup}>
             <label>No. of Guests: </label>
-            <select value={guests} onChange={(e) => setGuests(e.target.value)}>
+            <select
+              value={capacity}
+              onChange={(e) => setCapacity(Number(e.target.value))}
+            >
               <option value="two">2</option>
               <option value="three">3</option>
               <option value="four">4</option>
