@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styles from "./Login.module.css";
-import {Link, Navigate, redirect} from "react-router-dom"; // Import CSS module
+import { Link, useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate(); // Δημιουργία instance για πλοήγηση
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,8 +21,8 @@ const Login: React.FC = () => {
 
       if (response.status === 200) {
         setMessage("Welcome to Hotel Gourdo!");
-        localStorage.setItem('token', response.data.access);
-        <Navigate to="book-now" />
+        localStorage.setItem("token", response.data.access);
+        navigate("/book-now"); // Ανακατεύθυνση στη σελίδα book-now
       } else {
         setMessage("Invalid credentials. Please try again.");
       }

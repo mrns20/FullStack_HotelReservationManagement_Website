@@ -1,123 +1,72 @@
-/* PaymentPage.css */
-/*
-body {
-    background-color: #FAEBD7;
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-}
+/* PaymentPage.module.css */
 
 .container {
-    background-color: #2d3e3f;
-    width: 500px;
+    max-width: 500px;
+    margin: 50px auto;
     padding: 20px;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
 }
 
-.logo-text {
-    font-family: 'Lucida Calligraphy', cursive;
-    font-size: 28px;
-    margin-bottom: 10px;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.logo-text2 {
-    font-family: 'Lucida Calligraphy', cursive;
-    font-size: 20px;
+h1 {
+    text-align: center;
+    color: #333;
     margin-bottom: 20px;
-    color: lightblue;
+    font-size: 24px;
 }
 
-.radio-container {
+form {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-bottom: 20px;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.radio-label {
-    cursor: pointer;
-}
-
-.form-container {
-    display: none;
-    background-color: #4e5f60;
-    padding: 20px;
-    border-radius: 8px;
-}
-
-.radio:checked + .form-container {
-    display: block;
-}
-
-.form-container h2 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: black;
-}
-
-.form-container label {
-    display: block;
-    margin-bottom: 10px;
-    color: white;
-}
-
-.form-container input {
-    display: block;
-    margin-bottom: 10px;
-    font-family: 'Times New Roman', cursive;
-    font-size: 18px;
-    color: black;
-}
-
-.submit {
-    width: 100%;
-    background-color: #328f8a;
-    color: white;
+label {
+    font-size: 14px;
+    color: #555;
     font-weight: bold;
-    border: none;
+}
+
+input {
     padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+}
+
+button {
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
-input[type="checkbox"] {
-    transform: scale(1.5);
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
-.depo {
-    background-color: lightgrey;
-    font-family: 'Times New Roman', cursive;
-    color: black;
-    width: 410px;
-    height: auto;
-    font-weight: bold;
-    display: block;
-    white-space: normal;
-    word-wrap: break-word;
-}
-
-.depo2 {
-    background-color: lightgrey;
-    font-family: 'Times New Roman', cursive;
-    color: black;
-    width: 200px;
-    height: auto;
-    font-weight: bold;
-    display: block;
-    white-space: normal;
-    word-wrap: break-word;
+button:hover:not(:disabled) {
+    background-color: #45a049;
 }
 
 .message {
-    color: #32a852;
-    font-weight: bold;
+    text-align: center;
+    font-size: 14px;
     margin-top: 20px;
 }
-*/
+
+.message.success {
+    color: #4CAF50;
+}
+
+.message.error {
+    color: #f44336;
+}

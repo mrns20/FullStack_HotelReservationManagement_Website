@@ -5,7 +5,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from injector import inject
 from rest_framework_simplejwt.tokens import RefreshToken
 from .di import injector
@@ -21,7 +21,7 @@ from .serializers import ClientSerializer, StaffSerializer, MessageSerializer, R
 
 # ClientListCreateView - Δημιουργία και Λήψη Πελατών
 class ClientListCreateView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     @inject
     def __init__(self, **kwargs):
@@ -36,12 +36,11 @@ class ClientListCreateView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        # Δημιουργία νέου πελάτη
-        serializer = self.client_serializer(data=request.data)
+        serializer = ClientSerializer(data=request.data)
+
         if serializer.is_valid():
-            # Δημιουργία πελάτη μέσω της υπηρεσίας
-            client = self.client_service.create_client(serializer.validated_data)
-            return Response(self.client_serializer(client).data, status=status.HTTP_201_CREATED)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -73,6 +72,8 @@ class StaffListCreateView(APIView):
 
 # MessageListCreateView - Δημιουργία και Λήψη Μηνυμάτων
 class MessageListCreateView(APIView):
+    permission_classes = [AllowAny]
+
     @inject
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -85,10 +86,11 @@ class MessageListCreateView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = self.message_serializer(data=request.data)
+        serializer = MessageSerializer(data=request.data)
+
         if serializer.is_valid():
-            message = self.message_service.create_message(serializer.validated_data)
-            return Response(self.message_serializer(message).data, status=status.HTTP_201_CREATED)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -123,6 +125,8 @@ class RoomDetailView(APIView):
 
 # Client Login
 class LoginView(APIView):
+    permission_classes = [AllowAny]
+
     @inject
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -131,46 +135,76 @@ class LoginView(APIView):
         self.client_serializer = injector.get(ClientSerializer)
 
     def post(self, request):
-        serializer = self.login_serializer(data=request.data)
-        if serializer.is_valid():
-            username = serializer.validated_data['username']
-            password = serializer.validated_data['password']
-            client = self.login_service.authenticate(username, password)
-            if client:
-                refresh = RefreshToken.for_user(client)
-                return Response({
-                    'refresh': str(refresh),
-                    'access': str(refresh.access_token),
-                    'client': self.client_serializer(client).data
-                })
-            else:
-                return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            serializer = LoginSerializer(data=request.data)
+
+            if serializer.is_valid():
+                username = serializer.validated_data['username']
+                password = serializer.validated_data['password']
+
+                # Έλεγχος
+                client = self.login_service.authenticate(username, password)
+                if client:
+                    # Δημιουργούμε tokens για τον χρήστη
+                    refresh = RefreshToken.for_user(client)
+                    client_data = ClientSerializer(client).data
+
+                    # Επιστρέφουμε τα tokens και τα δεδομένα του client
+                    return Response({
+                        'refresh': str(refresh),
+                        'access': str(refresh.access_token),
+                        'client': client_data
+                    }, status=status.HTTP_200_OK)
+                else:
+                    return Response({'error': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
+
+            # Αν τα δεδομένα δεν είναι έγκυρα
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            # Χειρισμός exception
+            return Response(
+                {"error": "An unexpected error occurred.", "details": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 # Booking 1)
 class CheckAvailabilityView(APIView):
+    permission_classes = [AllowAny]
+
     @inject
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.room_service = injector.get(RoomService)
 
     def post(self, request, *args, **kwargs):
-        arrival = request.data.get('arrival')
-        departure = request.data.get('departure')
-        capacity = request.data.get('capacity')
-        rooms_needed = request.data.get('rooms_needed')
+        try:
+            # Λήψη δεδομένων από το αίτημα
+            arrival = request.data.get('arrival')
+            departure = request.data.get('departure')
+            capacity = request.data.get('capacity')
+            rooms_needed = request.data.get('rooms_needed')
 
-        # συνάρτηση get_available_rooms
-        available_rooms = self.room_service.get_available_rooms(capacity, arrival, departure)
-        if len(available_rooms) >= rooms_needed:
-            return Response({"message": "Room(s) available"}, status=status.HTTP_200_OK)
-        else:
-            return Response({"message": "Not enough rooms available"}, status=status.HTTP_404_NOT_FOUND)
+            # Έλεγχος αν λείπουν κάποια από τα απαιτούμενα πεδία
+            if not all([arrival, departure, capacity, rooms_needed]):
+                return Response({"message": "Missing required fields"}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Συνάρτηση για τον έλεγχο της διαθεσιμότητας
+            available_rooms = self.room_service.get_available_rooms(capacity, arrival, departure)
+            if len(available_rooms) >= rooms_needed:
+                return Response({"message": "Room(s) available"}, status=status.HTTP_200_OK)
+            else:
+                return Response({"message": "Not enough rooms available"}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            return Response({"message": f"An error occurred: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 # Booking 2)
 class ModifyReservationView(APIView):
+    permission_classes = [AllowAny]
+
     @inject
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -178,27 +212,39 @@ class ModifyReservationView(APIView):
         self.login_service = injector.get(LoginService)
 
     def post(self, request, *args, **kwargs):
-        username = request.data.get('username')
-        password = request.data.get('password')
-        arrival = request.data.get('arrival')
-        departure = request.data.get('departure')
-        capacity = request.data.get('capacity')
-        rooms_needed = request.data.get('rooms_needed')
+        try:
+            # Λήψη δεδομένων από το αίτημα
+            username = request.data.get('username')
+            password = request.data.get('password')
+            arrival = request.data.get('arrival')
+            departure = request.data.get('departure')
+            capacity = request.data.get('capacity')
+            rooms_needed = request.data.get('rooms_needed')
 
-        client = self.login_service.authenticate(username, password)
-        if not client:
-            return Response({"message": "Authentication failed"}, status=status.HTTP_401_UNAUTHORIZED)
+            # Έλεγχος αν λείπουν κάποια από τα απαιτούμενα πεδία
+            if not all([username, password, arrival, departure, capacity, rooms_needed]):
+                return Response({"message": "Missing required fields"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # συνάρτηση create_booking
-        bookings, message = self.booking_service.create_booking(client, capacity, arrival, departure, rooms_needed)
-        if bookings:
-            return Response({"message": message}, status=status.HTTP_201_CREATED)
-        else:
-            return Response({"message": message}, status=status.HTTP_400_BAD_REQUEST)
+            # Αυθεντικοποίηση του χρήστη
+            client = self.login_service.authenticate(username, password)
+            if not client:
+                return Response({"message": "Authentication failed"}, status=status.HTTP_401_UNAUTHORIZED)
+
+            # Δημιουργία κράτησης
+            bookings, message = self.booking_service.create_booking(client, capacity, arrival, departure, rooms_needed)
+            if bookings:
+                return Response({"message": message}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"message": message}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            return Response({"message": f"An error occurred: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 # Payment
 class PaymentView(APIView):
+    permission_classes = [AllowAny]
+
     @inject
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -206,17 +252,27 @@ class PaymentView(APIView):
         self.payment_serializer = injector.get(PaymentSerializer)
 
     def post(self, request, *args, **kwargs):
-        serializer = self.payment_serializer(data=request.data)
+        serializer = PaymentSerializer(data=request.data)
         if serializer.is_valid():
-            validated_data = request.data
-            # συνάρτηση create_payment
-            payment = self.payment_service.create_payment(validated_data)
-            response_data = self.payment_serializer(payment).data
-            response_data['message'] = f"Payment successful. Total cost: {response_data['cost']} €"
-            return Response(response_data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            validated_data = serializer.validated_data
+            print("Validated Data:", validated_data)
 
-    def get(self, request, *args, **kwargs):
-        payments = self.payment_service.get_all_payments()
-        serializer = self.payment_serializer(payments, many=True)
-        return Response(serializer.data)
+            try:
+                payment = self.payment_service.create_payment(validated_data)
+                if payment:
+                    response_data = PaymentSerializer(payment).data
+                    response_data['message'] = f"Payment successful. Total cost: {response_data.get('cost', 'N/A')} €"
+                    return Response(response_data, status=status.HTTP_201_CREATED)
+                else:
+                    return Response({"error": "Failed to create payment."},
+                                    status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            except Exception as e:
+                print(f"Error processing payment: {str(e)}")
+                return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(
+            {
+                "errors": serializer.errors,
+                "message": "Invalid data. Please check your input and try again."
+            },
+            status=status.HTTP_400_BAD_REQUEST,
+        )

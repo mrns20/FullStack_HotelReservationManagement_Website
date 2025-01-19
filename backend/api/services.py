@@ -118,25 +118,30 @@ class PaymentService:
         self.payment_repository = payment_repository
 
     def create_payment(self, data):
-        bookings = data.pop('bookings')
-        print(f"Bookings: {bookings}")  # Postman Testing
-
+        bookings = data.pop('bookings', None)
         total_cost = 0
-        for b_id in bookings:
-            booking_instance = Booking.objects.get(b_id=b_id)
-            num_days = (booking_instance.departure - booking_instance.arrival).days
-            room = Room.objects.get(r_id=booking_instance.room.r_id)
-            booking_cost = num_days * room.r_cost  # Υπολογισμός του cost
-            print(
-                f"Booking ID: {b_id}, Num Days: {num_days}, Room Cost: {room.r_cost}, Booking Cost: {booking_cost}")  # Postman Testing
-            total_cost += booking_cost
 
-        print(f"Total Cost: {total_cost}")  # Postman Testing
+        if bookings:
+            for b_id in bookings:
+                try:
+                    booking_instance = Booking.objects.get(b_id=b_id)
+                    num_days = (booking_instance.departure - booking_instance.arrival).days
+                    room = Room.objects.get(r_id=booking_instance.room.r_id)
+                    booking_cost = num_days * room.r_cost
+                    total_cost += booking_cost
+                except Booking.DoesNotExist:
+                    print(f"Booking with ID {b_id} does not exist.")
+                except Room.DoesNotExist:
+                    print(f"Room for booking ID {b_id} does not exist.")
+        else:
+            print("No bookings provided. Skipping cost calculation.")  # !!!
 
-        data['cost'] = total_cost
-        payment = self.payment_repository.create_payment(data)  # !!!
-        payment.bookings.set(bookings)
+        data['cost'] = total_cost or 0
+        payment = self.payment_repository.create_payment(data)
+        if bookings:
+            payment.bookings.set(bookings)
         return payment
+
 
     def get_all_payments(self):
         return self.payment_repository.get_all_payments()
