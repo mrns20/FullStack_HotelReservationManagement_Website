@@ -20,7 +20,7 @@ const Login: React.FC = () => {
       });
 
       if (response.status === 200) {
-        setMessage("Welcome to Hotel Gourdo!");
+        setMessage("Welcome to Hotel DMD!");
         localStorage.setItem("token", response.data.access);
         navigate("/book-now"); // Ανακατεύθυνση στη σελίδα book-now
       } else {
@@ -56,7 +56,7 @@ const Login: React.FC = () => {
         </header>
 
         <div className={styles.mainContent}>
-          <div className={styles.logoText}>Hotel Gourdo</div>
+          <div className={styles.logoText}>Hotel DMD</div>
 
           <div className={styles.form}>
             <h3>LOGIN</h3>
@@ -112,7 +112,7 @@ const Login: React.FC = () => {
           <div className={styles.singleCta}>
             <div className={styles.ctaText}>
               <h4>Mail us</h4>
-              <span>hotelgourdo@gmail.com</span>
+              <span>hotelDMD@gmail.com</span>
             </div>
             <img src="/email.jpg" alt="Email" className={styles.footerIcon} />
           </div>
@@ -138,7 +138,7 @@ const Login: React.FC = () => {
           <div className={styles.copyrightArea}>
             <div className={styles.copyrightText}>
               <p>
-                &copy; {new Date().getFullYear()} Hotel Gourdo. All rights
+                &copy; {new Date().getFullYear()} Hotel DMD. All rights
                 reserved.
               </p>
             </div>

@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from injector import inject
 from rest_framework_simplejwt.tokens import RefreshToken
 from .di import injector
+from injector import Injector
 
 from .services import (
     ClientService, StaffService, MessageService,
@@ -276,3 +277,17 @@ class PaymentView(APIView):
             },
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+
+# LastBooking(χρειάζεται στη PaymentPage.tsx)
+class LastBookingView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        injector = Injector()
+        booking_service = injector.get(BookingService)
+        try:
+            last_booking = booking_service.get_last_booking()  # !!!
+            return Response({'last_b_id': last_booking.b_id}, status=status.HTTP_200_OK)
+        except AttributeError:
+            return Response({'last_b_id': None}, status=status.HTTP_200_OK)

@@ -111,6 +111,12 @@ class BookingService:
 
         return bookings, "Booking successful"
 
+    # χρειάζεται στην PaymentPage.tsx
+    def get_last_booking(self):
+        return self.booking_repository.get_last_booking()
+
+
+
 
 class PaymentService:
     @inject
@@ -118,28 +124,40 @@ class PaymentService:
         self.payment_repository = payment_repository
 
     def create_payment(self, data):
-        bookings = data.pop('bookings', None)
+        bookings = data.pop('bookings', None)  # Παίρνουμε τα bookings από το αίτημα
         total_cost = 0
 
         if bookings:
-            for b_id in bookings:
+            booking_ids = []
+            for booking in bookings:
                 try:
-                    booking_instance = Booking.objects.get(b_id=b_id)
+                    # Εξασφαλίζουμε ότι παίρνουμε το σωστό αντικείμενο και το ID
+                    if isinstance(booking, Booking):
+                        booking_instance = booking
+                    else:
+                        booking_instance = Booking.objects.get(b_id=booking)
+
+                    booking_ids.append(booking_instance.b_id)
+
+                    # Υπολογισμός κόστους
                     num_days = (booking_instance.departure - booking_instance.arrival).days
                     room = Room.objects.get(r_id=booking_instance.room.r_id)
                     booking_cost = num_days * room.r_cost
                     total_cost += booking_cost
                 except Booking.DoesNotExist:
-                    print(f"Booking with ID {b_id} does not exist.")
+                    raise ValueError(f"Booking with ID {booking} does not exist.")
                 except Room.DoesNotExist:
-                    print(f"Room for booking ID {b_id} does not exist.")
+                    raise ValueError(f"Room for Booking ID {booking_instance.b_id} does not exist.")
         else:
-            print("No bookings provided. Skipping cost calculation.")  # !!!
+            print("No bookings provided. Skipping cost calculation.")
 
+        # Ορισμός του συνολικού κόστους
         data['cost'] = total_cost or 0
         payment = self.payment_repository.create_payment(data)
+
         if bookings:
-            payment.bookings.set(bookings)
+            # Χρησιμοποιούμε τα IDs αντί για αντικείμενα(για να μην υπάρχουν errors στο frontend)
+            payment.bookings.set(booking_ids)
         return payment
 
 

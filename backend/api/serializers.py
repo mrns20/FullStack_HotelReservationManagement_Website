@@ -71,11 +71,11 @@ class PaymentSerializer(serializers.ModelSerializer):
         super().__init__(*args, **kwargs)
 
     # ManyToManyField
-    # bookings = serializers.PrimaryKeyRelatedField(queryset=Booking.objects.all(), many=True)
+    bookings = serializers.PrimaryKeyRelatedField(queryset=Booking.objects.all(), many=True)
 
     class Meta:
         model = Payment
-        fields = ['p_id', 'cost', 'number', 'name', 'month_year', 'CVV'] #,'bookings'
+        fields = ['p_id','bookings', 'cost', 'number', 'name', 'month_year', 'CVV']
         extra_kwargs = {  # Το cost υπολογίζεται μέσω του PaymentService(και της εισόδου του client)
             'cost': {'required': False}
         }

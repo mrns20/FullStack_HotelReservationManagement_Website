@@ -190,3 +190,24 @@ header {
 .navItem a:hover {
   color: var(--accent-color);
 }
+
+.terms {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  margin: 1rem 0;
+}
+
+.terms input[type="checkbox"] {
+  margin-right: 0.5rem;
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary-color);
+}
+
+.terms label {
+  font-size: 1rem;
+  color: var(--text-color);
+  cursor: pointer;
+}

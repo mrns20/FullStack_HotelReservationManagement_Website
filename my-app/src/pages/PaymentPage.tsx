@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./PaymentPage.module.css";
 
@@ -9,8 +9,24 @@ const PaymentPage: React.FC = () => {
     const [cvv, setCvv] = useState("");
     const [message, setMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const [lastBookingId, setLastBookingId] = useState<number | null>(null);
 
-    // Χειρισμός θέματος με το month_year: Δεκέμβριος 2027 -> 1227(στη ΒΔ)
+    // Λήψη του τελευταίου `b_id` κατά το mount του component
+    useEffect(() => {
+        const fetchLastBookingId = async () => {
+            try {
+                const response = await axios.get("http://127.0.0.1:8000/booking/last/");
+                if (response.status === 200) {
+                    setLastBookingId(response.data.last_b_id);
+                }
+            } catch (error) {
+                console.error("Error fetching last booking ID:", error);
+            }
+        };
+
+        fetchLastBookingId();
+    }, []);
+
     const handleExpiryDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         const [year, month] = value.split("-");
@@ -31,9 +47,15 @@ const PaymentPage: React.FC = () => {
         event.preventDefault();
         setLoading(true);
 
+        if (lastBookingId === null) {
+            setMessage("No booking available for payment.");
+            setLoading(false);
+            return;
+        }
+
         try {
             const response = await axios.post("http://127.0.0.1:8000/payments/", {
-                bookings: [],
+                bookings: [lastBookingId],
                 number: creditNumber,
                 name: creditName,
                 month_year: expiryDate,
@@ -52,58 +74,69 @@ const PaymentPage: React.FC = () => {
             setLoading(false);
         }
     };
-
     return (
         <div className={styles.container}>
             <h1>Payment Page</h1>
             <form onSubmit={handleSubmitCreditCard}>
-                <label htmlFor="creditNumber">Credit Card Number:</label>
-                <input
-                    type="text"
-                    id="creditNumber"
-                    name="creditNumber"
-                    value={creditNumber}
-                    onChange={(e) => setCreditNumber(e.target.value)}
-                    required
-                />
+                <div className={styles.formGroup}>
+                    <label htmlFor="creditNumber">Credit Card Number:</label>
+                    <input
+                        type="text"
+                        id="creditNumber"
+                        name="creditNumber"
+                        value={creditNumber}
+                        onChange={(e) => setCreditNumber(e.target.value)}
+                        required
+                    />
+                </div>
 
-                <label htmlFor="creditName">Cardholder Name:</label>
-                <input
-                    type="text"
-                    id="creditName"
-                    name="creditName"
-                    value={creditName}
-                    onChange={(e) => setCreditName(e.target.value)}
-                    required
-                />
+                <div className={styles.formGroup}>
+                    <label htmlFor="creditName">Cardholder Name:</label>
+                    <input
+                        type="text"
+                        id="creditName"
+                        name="creditName"
+                        value={creditName}
+                        onChange={(e) => setCreditName(e.target.value)}
+                        required
+                    />
+                </div>
 
-                <label htmlFor="expiryDate">Expiry Date:</label>
-                <input
-                    type="month"
-                    id="expiryDate"
-                    name="expiryDate"
-                    value={formatExpiryDateForDisplay(expiryDate)}
-                    onChange={handleExpiryDateChange}
-                    required
-                />
+                <div className={styles.formGroup}>
+                    <label htmlFor="expiryDate">Expiry Date:</label>
+                    <input
+                        type="month"
+                        id="expiryDate"
+                        name="expiryDate"
+                        value={formatExpiryDateForDisplay(expiryDate)}
+                        onChange={handleExpiryDateChange}
+                        required
+                    />
+                </div>
 
-                <label htmlFor="cvv">CVV:</label>
-                <input
-                    type="text"
-                    id="cvv"
-                    name="cvv"
-                    value={cvv}
-                    onChange={(e) => setCvv(e.target.value)}
-                    required
-                />
+                <div className={styles.formGroup}>
+                    <label htmlFor="cvv">CVV:</label>
+                    <input
+                        type="text"
+                        id="cvv"
+                        name="cvv"
+                        value={cvv}
+                        onChange={(e) => setCvv(e.target.value)}
+                        required
+                    />
+                </div>
 
-                <button type="submit" disabled={loading}>
+                <button type="submit" disabled={loading} className={styles.submitButton}>
                     {loading ? "Processing..." : "Submit Payment"}
                 </button>
             </form>
 
             {message && (
-                <p className={`${styles.message} ${message.includes("Successful") ? styles.success : styles.error}`}>
+                <p
+                    className={`${styles.message} ${
+                        message.includes("Successful") ? styles.success : styles.error
+                    }`}
+                >
                     {message}
                 </p>
             )}
@@ -112,5 +145,4 @@ const PaymentPage: React.FC = () => {
 };
 
 export default PaymentPage;
-
 

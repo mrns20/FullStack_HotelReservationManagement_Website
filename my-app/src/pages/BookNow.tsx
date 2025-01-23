@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./BookNow.module.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -59,21 +59,6 @@ const BookNow: React.FC = () => {
 
       if (response.status === 201) {
           navigate("/payment");
-
-        /*
-        const bookings = response.data.bookings;
-          if (bookings && Array.isArray(bookings)) {
-              console.log("Bookings array:", bookings);
-              localStorage.setItem("bookings", JSON.stringify(bookings));
-              setMessage("Reservation Successful!");
-              setTimeout(() => {
-                  console.log("Navigating to payment page...");
-                  navigate("/payment");
-              }, 2000);
-          } else {
-              console.error("Failed to retrieve valid bookings:", bookings);
-              setMessage("Failed to retrieve booking details. Please try again.");
-          } */
       } else {
         setMessage(response.data.message || "Reservation failed.");
       }
@@ -95,7 +80,7 @@ const BookNow: React.FC = () => {
           </nav>
         </header>
         <div className={styles.mainContent}>
-          <div className={styles.logoText}>Hotel Gourdo</div>
+          <div className={styles.logoText}>Hotel DMD</div>
           <div className={styles.logoText2}>- Book Now -</div>
 
           <form onSubmit={checkAvailability}>
@@ -192,7 +177,7 @@ const BookNow: React.FC = () => {
           <div className={styles.singleCta}>
             <div className={styles.ctaText}>
               <h4>Mail us</h4>
-              <span>hotelgourdo@gmail.com</span>
+              <span>hotelDMD@gmail.com</span>
             </div>
             <img src="/email.jpg" alt="Email" className={styles.footerIcon} />
           </div>
@@ -218,7 +203,7 @@ const BookNow: React.FC = () => {
           <div className={styles.copyrightArea}>
             <div className={styles.copyrightText}>
               <p>
-                &copy; {new Date().getFullYear()} Hotel Gourdo. All rights
+                &copy; {new Date().getFullYear()} Hotel DMD. All rights
                 reserved.
               </p>
             </div>

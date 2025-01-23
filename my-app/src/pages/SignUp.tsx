@@ -39,7 +39,7 @@ const SignUp: React.FC = () => {
       });
 
       if (response.status === 201) {
-        alert("Welcome to Hotel Gourdo!");
+        alert("Welcome to Hotel DMD!");
       } else {
         setError("An error has occurred.");
       }
@@ -61,7 +61,7 @@ const SignUp: React.FC = () => {
         </header>
 
         <div className={styles.mainContent}>
-          <div className={styles.logoText}>Hotel Gourdo</div>
+          <div className={styles.logoText}>Hotel DMD</div>
           <div className={styles.logoText2}>- Sign Up Page -</div>
 
           <form onSubmit={handleSubmit} className={styles.signUpForm}>
@@ -141,11 +141,12 @@ const SignUp: React.FC = () => {
               <input
                   type="checkbox"
                   name="terms"
+                  id="terms"
                   checked={formData.terms}
                   onChange={handleChange}
                   required
               />
-              &nbsp; I accept the terms and conditions
+              <label htmlFor="terms">I accept the terms and conditions</label>
             </div>
             <div className={styles.box}>
               <button type="submit" className={styles.submitButton}>
@@ -173,7 +174,7 @@ const SignUp: React.FC = () => {
             <div className={styles.singleCta}>
               <div className={styles.ctaText}>
                 <h4>Mail us</h4>
-                <span>hotelgourdo@gmail.com</span>
+                <span>hotelDMD@gmail.com</span>
               </div>
               <img src="/email.jpg" alt="Email" className={styles.footerIcon} />
             </div>
@@ -200,7 +201,7 @@ const SignUp: React.FC = () => {
           <div className={styles.copyrightArea}>
             <div className={styles.copyrightText}>
               <p>
-                &copy; {new Date().getFullYear()} Hotel Gourdo. All rights
+                &copy; {new Date().getFullYear()} Hotel DMD. All rights
                 reserved.
               </p>
             </div>

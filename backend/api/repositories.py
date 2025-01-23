@@ -87,6 +87,10 @@ class BookingRepository:
             departure__gte=arrival
         )
 
+    # χρειάζεται στην PaymentPage.tsx
+    def get_last_booking(self):
+        return Booking.objects.latest('b_id')
+
 
 class PaymentRepository:
     @inject

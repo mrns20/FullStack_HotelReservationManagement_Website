@@ -62,13 +62,13 @@ header {
   text-align: center;
   margin: 2rem auto; /* Centered and added more spacing around */
   padding: 2rem; /* Increased padding for a more spacious feel */
-  font-size: 1.5rem; /* Increased font size */
+  font-size: 1.3rem; /* Increased font size */
   line-height: 1.8; /* Adjusted line height for readability */
   background-color: #e9e2ad;
   border: 3px solid #333; /* Thicker border for a bolder frame */
   border-radius: 15px; /* Slightly larger border-radius for rounded edges */
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Slightly larger shadow */
-  font-family: "Brush Script MT", cursive; /* Calligraphic font */
+  font-family: 'Dancing Script', cursive; /* Calligraphic font */
   font-weight: bold;
   color: #222; /* Darkened text color for contrast */
 }

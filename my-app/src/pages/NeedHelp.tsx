@@ -71,7 +71,7 @@ const NeedHelp: React.FC = () => {
           </nav>
         </header>
 
-        <div className={styles.logoText}>Hotel Gourdo</div>
+        <div className={styles.logoText}>Hotel DMD</div>
 
         <div className={styles.container}>
           <h3 className={styles.logoText2}>Send us your Message!</h3>
@@ -180,7 +180,7 @@ const NeedHelp: React.FC = () => {
           <div className={styles.singleCta}>
             <div className={styles.ctaText}>
               <h4>Mail us</h4>
-              <span>hotelgourdo@gmail.com</span>
+              <span>hotelDMD@gmail.com</span>
             </div>
             <img src="/email.jpg" alt="Email" className={styles.footerIcon} />
           </div>
@@ -206,7 +206,7 @@ const NeedHelp: React.FC = () => {
           <div className={styles.copyrightArea}>
             <div className={styles.copyrightText}>
               <p>
-                &copy; {new Date().getFullYear()} Hotel Gourdo. All rights
+                &copy; {new Date().getFullYear()} Hotel DMD. All rights
                 reserved.
               </p>
             </div>
