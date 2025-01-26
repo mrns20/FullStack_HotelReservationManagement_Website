@@ -47,7 +47,7 @@ class ClientListCreateView(APIView):
 
 # StaffListCreateView - Δημιουργία και Λήψη Υπαλλήλων
 class StaffListCreateView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     @inject
     def __init__(self, **kwargs):
@@ -63,11 +63,11 @@ class StaffListCreateView(APIView):
 
     def post(self, request):
         # Δημιουργία νέου υπαλλήλου
-        serializer = self.staff_serializer(data=request.data)
+        serializer = StaffSerializer(data=request.data)
         if serializer.is_valid():
             # Δημιουργία υπαλλήλου μέσω της υπηρεσίας
             staff = self.staff_service.create_staff(serializer.validated_data)
-            return Response(self.staff_serializer(staff).data, status=status.HTTP_201_CREATED)
+            return Response(StaffSerializer(staff).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

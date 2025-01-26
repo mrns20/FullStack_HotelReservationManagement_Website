@@ -88,6 +88,7 @@ const BookNow: React.FC = () => {
               <label>Arrival: </label>
               <input
                   type="date"
+                  name="arrival"
                   value={arrival}
                   onChange={handleChange(setArrival)}
                   required
@@ -98,6 +99,7 @@ const BookNow: React.FC = () => {
               <label>Departure: </label>
               <input
                   type="date"
+                  name="departure"
                   value={departure}
                   onChange={handleChange(setDeparture)}
                   required
@@ -106,7 +108,7 @@ const BookNow: React.FC = () => {
 
             <div className={styles.formGroup}>
               <label>No. of Rooms: </label>
-              <select value={rooms} onChange={handleChange(setRooms)}>
+              <select name="rooms" value={rooms} onChange={handleChange(setRooms)}>
                 <option value={1}>1</option>
                 <option value={2}>2</option>
                 <option value={3}>3</option>
@@ -115,14 +117,14 @@ const BookNow: React.FC = () => {
 
             <div className={styles.formGroup}>
               <label>No. of Guests: </label>
-              <select value={guests} onChange={handleChange(setGuests)}>
+              <select name="guests"  value={guests} onChange={handleChange(setGuests)}>
                 <option value={2}>2</option>
                 <option value={3}>3</option>
                 <option value={4}>4</option>
               </select>
             </div>
 
-            <button type="submit" className={styles.submitButton} disabled={loading}>
+            <button name="Submit1" type="submit" className={styles.submitButton} disabled={loading}>
               {loading ? "Loading..." : "See Availability"}
             </button>
           </form>
@@ -132,6 +134,7 @@ const BookNow: React.FC = () => {
               <label>Username: </label>
               <input
                   type="text"
+                  name="username"
                   value={username}
                   onChange={handleChange(setUsername)}
                   required
@@ -142,6 +145,7 @@ const BookNow: React.FC = () => {
               <label>Password: </label>
               <input
                   type="password"
+                  name="password"
                   value={password}
                   onChange={handleChange(setPassword)}
                   required
@@ -149,6 +153,7 @@ const BookNow: React.FC = () => {
             </div>
 
             <button
+                name="Submit2"
                 type="submit"
                 className={styles.modifyButton}
                 disabled={loading || !message.includes("available")}
