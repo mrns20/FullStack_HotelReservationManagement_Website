@@ -21,6 +21,7 @@ cd backend
 Create and activate a virtual environment:
 
 python -m venv venv
+
 venv\Scripts\activate (for cmd) or venv\Scripts\Activate.ps1 (for powershell)
 
 Install dependencies:
